@@ -1,0 +1,69 @@
+<form {% if requestDetails.is_active == False %} inert {% endif %}  id="other_detail_form" enctype="multipart/form-data">
+<div class="multisteps-form__panel shadow p-4 rounded bg-white " data-animation="scaleIn">
+    <div style="display: flex;flex-wrap: wrap;flex-direction: row;justify-content: space-between;">
+        <h3 class="multisteps-form__title">OTHER DETAILS</h3>
+        <button type="button" onclick="autofill(event,'otherDetailsAPI', 'other_detail_form')" id="load_smsAlert_details" data-toggle="tooltip" data-placement="top" title="Load Data From Prev. Saved From ?"><i class="fa fa-refresh" aria-hidden="true"></i> </button>
+    </div>
+    <div class="multisteps-form__content">
+        <table class="table">
+            <tbody>
+              {% if  'gross_annual_income_detail' in investorOtherDetailsFields %}
+              <tr>
+                <th scope="row"><label>Gross Annual Income Details</label></th>
+                <td>
+                  <input class="form-check-input other-radio" type="radio" name="gross_annual_income_detail" value="Onelac" {% if investorOtherDetails.gross_annual_income_detail == 'Onelac' %} checked {% endif %}>Below 1 LAC <br>
+                  <input class="form-check-input other-radio" type="radio" name="gross_annual_income_detail" value="Fivelac" {%  if investorOtherDetails.gross_annual_income_detail == 'Fivelac' %} checked {% endif %}> 1-5 LAC <br>
+                  <input class="form-check-input other-radio" type="radio" name="gross_annual_income_detail" value="Tenlac" {%  if investorOtherDetails.gross_annual_income_detail == 'Tenlac' %} checked {% endif %}>5-10 LAC <br>
+                  <input class="form-check-input other-radio" type="radio" name="gross_annual_income_detail" value="Twentyfivelac" {%  if investorOtherDetails.gross_annual_income_detail == 'Twentyfivelac' %} checked {% endif %}>10-25 LAC <br>
+                  <input class="form-check-input other-radio" type="radio" name="gross_annual_income_detail" value="Above" {%  if investorOtherDetails.gross_annual_income_detail == 'Above' %} checked {% endif %}>Above 25 LAC <br>
+                </td>
+              </tr>              
+              {% endif %}
+              {% if  'occupation' in investorOtherDetailsFields %}
+              <tr>
+                <th scope="row"><label>Occupation</label></th>
+                <td>
+                  <input class="form-check-input other-radio" type="radio" name="occupation" value="Private" {%  if investorOtherDetails.occupation == 'Private' %} checked {% endif %}>Private Sector Service <br>
+                  <input class="form-check-input other-radio" type="radio" name="occupation" value="Public" {%  if investorOtherDetails.occupation == 'Public' %} checked {% endif %}>Public Sector <br>
+                  <input class="form-check-input other-radio" type="radio" name="occupation" value="Busi" {%  if investorOtherDetails.occupation == 'Busi' %} checked {% endif %}>Business<br>
+                  <input class="form-check-input other-radio" type="radio" name="occupation" value="Ret" {%  if investorOtherDetails.occupation == 'Ret' %} checked {% endif %}>Retired<br>
+                  <input class="form-check-input other-radio" type="radio" name="occupation" value="Govt" {%  if investorOtherDetails.occupation == 'Govt' %} checked {% endif %}>Govt Service<br>
+                  <input class="form-check-input other-radio" type="radio" name="occupation" value="Prof" {%  if investorOtherDetails.occupation == 'Prof' %} checked {% endif %}>Professional<br>
+                  <input class="form-check-input other-radio" type="radio" name="occupation" value="Agri" {%  if investorOtherDetails.occupation == 'Agri' %} checked {% endif %}>Agricultural<br>
+                  <input class="form-check-input other-radio" type="radio" name="occupation" value="House" {%  if investorOtherDetails.occupation == 'House' %} checked {% endif %}>Housewife<br>
+                  <input class="form-check-input other-radio" type="radio" name="occupation" value="Stud" {%  if investorOtherDetails.occupation == 'Stud' %} checked {% endif %}>Student<br>
+                  <input class="form-check-input other-radio" type="radio" name="occupation" value="Forex" {%  if investorOtherDetails.occupation == 'Forex' %} checked {% endif %}>Forex Dealer<br>
+                  <input class="form-check-input other-radio" type="radio" name="occupation" value="others" onclick="displayOthersTextArea2()" {%  if investorOtherDetails.occupation == 'others' %} checked {% endif %}>Others (Specify)<br>
+                </td>
+              </tr>
+              {% endif %}
+              {% if  'declaration' in investorOtherDetailsFields %}
+              <tr>
+                <th scope="row"><label>Please Check if applicable</label></th>
+                <td>
+                  <input class="form-check-input other-radio" type="radio" name="declaration" value="Politically" {%  if investorOtherDetails.declaration == 'Politically' %} checked {% endif %}>Politically Exposed Person<br>
+                  <input class="form-check-input other-radio" type="radio" name="declaration" value="Related" {%  if investorOtherDetails.declaration == 'Related' %} checked {% endif %}>Related to Politically Exposed Person<br>
+                  <input class="form-check-input other-radio" type="radio" name="declaration" value="Others" onclick="displayOthersTextArea3()" {%  if investorOtherDetails.declaration == 'Others' %} checked {% endif %}>Others (Specify)<br>                  
+                </td>
+              </tr>
+              {% endif %}
+              {% if  'other_info' in investorOtherDetailsFields %}
+              <tr>
+                <th scope="row"><label>Any Other Information</label></th>
+                <td>
+                  <input class="multisteps-form__input form-control" name="other_info" id="other_info" type="textarea" placeholder=" Information"
+                  value="{% if investorOtherDetails.other_info %}{{ investorOtherDetails.other_info}}{% endif %}" />
+                </td>
+              </tr>
+              {% endif %}
+            </tbody>
+        </table>
+        <div class="button-row d-flex mt-4">
+            <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
+            <button class="btn btn-primary ml-auto js-btn-next" onclick="formSubmit(event, 'other_detail_form', 'investorOtherDetailsSave')"  id="other_detail_form_next" type="button" title="Next">Next</button>
+            
+        </div>
+    </div>
+   
+</div>
+</form>

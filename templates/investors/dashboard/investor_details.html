@@ -1,0 +1,37 @@
+{% extends 'partials/base.html' %}
+{% block nav_item_profile %}active{% endblock nav_item_profile %}
+{% block title %} User Details {% endblock %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script> 
+<div class="h-screen flex-grow-1 overflow-y-lg-auto">
+  <form {% if form_status == 0 %} inert {% endif %} id="profile_form" >
+    <button class="btn btn-primary profile-button float-right"  id="investor_profile_submit_btn" style="z-index:10; background-color: #519f3d;border: none; position: fixed; right: 40px;bottom: 40px;" type="button">SAVE</button>
+    <main class="py-6 bg-surface-secondary">
+           
+    <!-- =====================================Bank details========================================================== -->
+    {% include "investors/profile/profile.html" %}    
+
+    <!-- =====================================Bank details========================================================== -->
+    {% include "investors/profile/investor_bank_details.html" %}   
+    
+    <!-- =====================================Credit Card details========================================================== -->
+    {% include "investors/profile/investor_creditcard_details.html" %}   
+    
+    <!-- =====================================document upload========================================================== -->
+    {% include "investors/profile/investor_document.html" %} 
+
+    <!-- =====================================Nominee details========================================================== -->
+    {% include "investors/profile/investor_nominee_details.html" %}   
+    
+    <!-- =====================================document upload========================================================== -->
+    {% include "investors/profile/investor_document_upload.html" %}  
+    
+   
+    </main>
+</form>
+</div>
+<script src="{% static 'investor/investor.js' %}"></script>
+
+{% endblock %}

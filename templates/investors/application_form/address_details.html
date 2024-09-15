@@ -1,0 +1,177 @@
+{% load index %}
+<style>
+  .checkbox-custom:checked ~.input_box {
+    visibility: hidden;
+    opacity: 0;
+  }
+</style>
+<form {% if requestDetails.is_active == False %} inert {% endif %}  id="address_form">
+  <div class="multisteps-form__panel shadow p-4 rounded bg-white " data-animation="scaleIn">
+    
+    <div style="display: flex;flex-wrap: wrap;flex-direction: row;justify-content: space-between;">
+      <h3 class="multisteps-form__title">Address Details</h3>
+      <button type="button" onclick="autofill(event,'addressDetailsAPI', 'address_form')" id="load_address_details" data-toggle="tooltip" data-placement="top" title="Load Data From Prev. Saved From ?" ><i class="fa fa-refresh" aria-hidden="true"></i> </button>
+    </div>
+    <div class="multisteps-form__content">
+      {% if 'flat_no' in investorAddressDetailsFields %}
+         {% if 'street_name' in investorAddressDetailsFields %}
+            {% if 'bldg_no' in investorAddressDetailsFields %}
+              <div class="form-row mt-4">
+                <label for="flat_no,street_name,bldg_no" class="col-12 col-sm-3">Resident/Correspondence Address : </label>
+                <div class="col-12 col-sm-9">
+                  <input class="multisteps-form__input form-control" name="flat_no,street_name,bldg_no" id="residence_address" type="textarea" placeholder="Address"
+                    value="{% if investorAddressDetails.flat_no and investorAddressDetails.street_name and investorAddressDetails.bldg_no %}{{ investorAddressDetails.flat_no }}, {{ investorAddressDetails.street_name }}, {{ investorAddressDetails.bldg_no }}{% else %}{{ user.investordetail.flat_no }}, {{ user.investordetail.street_name }}, {{ user.investordetail.bldg_no }}{% endif %}" />
+                </div>
+              </div>
+            {% endif %}
+          {% endif %}
+      {% endif %}
+
+      <div class="form-row mt-4">
+        {% if 'city' in investorAddressDetailsFields %}
+        <label for="city" class="col-12 col-sm-2">City/Town/Village: </label>
+        <div class="col-12 col-sm-2">
+          <input class="multisteps-form__input form-control" name="city" id="residence_city" type="text" placeholder="City"
+            value="{% if investorAddressDetails.city %}{{investorAddressDetails.city}}{% else %}{{user.investordetail.city}}{% endif %}" />
+        </div>
+        {% endif %}
+
+
+        {% if 'district' in investorAddressDetailsFields %}
+        <label for="district" class="col-12 col-sm-1">District : </label>
+        <div class="col-12 col-sm-3">
+          <input class="multisteps-form__input form-control" name="district" id="residence_district" type="text" placeholder="District"
+            value="{% if investorAddressDetails.district %}{{investorAddressDetails.district}}{% else %}{{user.investordetail.district}}{% endif %}" />
+        </div>
+        {% endif %}
+
+        {% if 'email_id' in investorAddressDetailsFields %}
+        <label for="email_id" class="col-12 col-sm-1">Email id : </label>
+        <div class="col-12 col-sm-3">
+          <input class="multisteps-form__input form-control" name="email_id" id="residence_email_id" type="Email" placeholder="Email"
+            value="{% if investorAddressDetails.email_id %}{{investorAddressDetails.email_id}}{% else %}{{user.investordetail.email_id}}{% endif %}" />
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="form-row mt-4">
+        {% if 'pincode' in investorAddressDetailsFields %}
+        <label for=" pincode" class="col-12 col-sm-1">Pin Code : </label>
+        <div class="col-12 col-sm-3">
+          <input class="multisteps-form__input form-control" name="pincode" id="residence_picode" type="number" placeholder="Pin Code"
+            value="{% if investorAddressDetails.pincode %}{{investorAddressDetails.pincode}}{% else %}{{user.investordetail.pincode}}{% endif %}" />
+        </div>
+        {% endif %}
+
+        {% if 'state' in investorAddressDetailsFields %}
+        <label for="state" class="col-12 col-sm-1">State : </label>
+        <div class="col-12 col-sm-3">
+          <input class="multisteps-form__input form-control" name="state" id="residence_state" type="text" placeholder="State"
+            value="{% if investorAddressDetails.state %}{{investorAddressDetails.state}}{% else %}{{user.investordetail.state}}{% endif %}" />
+
+        </div>
+        {% endif %}
+
+        {% if 'country' in investorAddressDetailsFields %}
+        <label for="country" class="col-12 col-sm-1">Country : </label>
+        <div class="col-12 col-sm-3">
+          <input class="multisteps-form__input form-control" name="country" id="residence_country" type="text" placeholder="Country"
+            value="{% if investorAddressDetails.country %}{{investorAddressDetails.country}}{% else %}{{user.investordetail.country}}{% endif %}" />
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="form-row mt-4">
+        {% if 'mobile_no' in investorAddressDetailsFields %}
+        <label for="mobile_no" class="col-12 col-sm-2">Contact/Mobile No: </label>
+        <div class="col-12 col-sm-2">
+          <input class="multisteps-form__input form-control" name="mobile_no" id="mobile_no" type="number" placeholder="Mobile No"
+            value="{% if investorAddressDetails.mobile_no %}{{investorAddressDetails.mobile_no}}{% else %}{{user.investordetail.mobile_no}}{% endif %}" />
+        </div>
+        {% endif %}
+        {% if 'tel_no' in investorAddressDetailsFields %}      
+        <label for=" tel_no" class="col-12 col-sm-2">Tel No: </label>
+        <div class="col-12 col-sm-2">
+          <input class="multisteps-form__input form-control" name="tel_no"  id="tel_no" type="number" placeholder="Tel No"
+            value="{% if investorAddressDetails.tel_no %}{{investorAddressDetails.tel_no}}{% else %}{{user.investordetail.mobile_no}}{% endif %}" />
+        </div>
+        {% endif %}
+      </div>
+      
+      <div class="col-12 mt-4">
+        <h5>
+          <input id="checkbox-1" class="checkbox-custom" name="checkbox-1" type="checkbox" {% if investorAddressDetails.addr_checkbox %}checked{% endif %}>
+          <label for="checkbox-1" class="checkbox-custom-label">Same As Resident/Correspondence Address</label>
+        </h5>
+      </div>
+      
+      {% if 'permanent_address' in investorAddressDetailsFields %}
+      <div class="form-row mt-4 input_box">
+        <label for="permanent_address" class="col-12 col-sm-12">Specify the proof of Address submitted Resident / Correspondence
+          Address:</label>
+        <div class="col-12 col-sm-12">
+          <input class="multisteps-form__input form-control" name="permanent_address" id="permanent_address" type="textarea" placeholder="Address"
+            {% if investorAddressDetails.addr_checkbox %}readonly{% endif %} value="{% if investorAddressDetails.permanent_address %}{{ investorAddressDetails.permanent_address }}{% endif %}" />
+        </div>
+      </div>
+      {% endif %}
+      
+      
+      <div class="form-row mt-4 input_box">
+        {% if 'permanent_city' in investorAddressDetailsFields %}
+        <label for="permanent_city" class="col-12 col-sm-2">City/Town/Village:</label>
+        <div class="col-12 col-sm-2">
+          <input class="multisteps-form__input form-control" name="permanent_city" id="permanent_city" type="text" placeholder="City"
+            value="{% if investorAddressDetails.addr_checkbox %}{{ investorAddressDetails.permanent_city }}{% endif %}" {% if investorAddressDetails.addr_checkbox %}readonly{% endif %} />
+        </div>
+        {% endif %}
+      
+        {% if 'permanent_district' in investorAddressDetailsFields %}
+        <label for="permanent_district" class="col-12 col-sm-1">District:</label>
+        <div class="col-12 col-sm-3">
+          <input class="multisteps-form__input form-control" name="permanent_district" id="permanent_district" type="text" placeholder="District"
+            value="{% if investorAddressDetails.addr_checkbox %}{{ investorAddressDetails.permanent_district }}{% endif %}" {% if investorAddressDetails.addr_checkbox %}readonly{% endif %} />
+        </div>
+        {% endif %}
+      </div>
+      
+      <div class="form-row mt-4 input_box">
+        {% if 'permanent_pincode' in investorAddressDetailsFields %}
+        <label for="permanent_pincode" class="col-12 col-sm-1">Pin Code:</label>
+      
+        <div class="col-12 col-sm-3">
+          <input class="multisteps-form__input form-control" name="permanent_pincode" id="permanent_pincode" type="number" placeholder="Pin Code"
+            value="{% if investorAddressDetails.addr_checkbox %}{{ investorAddressDetails.permanent_pincode }}{% endif %}" {% if investorAddressDetails.addr_checkbox %}readonly{% endif %} />
+        </div>
+        {% endif %}
+      
+        {% if 'permanent_state' in investorAddressDetailsFields %}
+        <label for="permanent_state" class="col-12 col-sm-1">State:</label>
+        <div class="col-12 col-sm-3">
+          <input class="multisteps-form__input form-control" name="permanent_state" id="permanent_state" type="text" placeholder="State"
+            value="{% if investorAddressDetails.addr_checkbox %}{{ investorAddressDetails.permanent_state }}{% endif %}" {% if investorAddressDetails.addr_checkbox %}readonly{% endif %} />
+        </div>
+        {% endif %}
+      
+        {% if 'permanent_country' in investorAddressDetailsFields %}
+        <label for="permanent_country" class="col-12 col-sm-1">Country:</label>
+        <div class="col-12 col-sm-3">
+          <input class="multisteps-form__input form-control" name="permanent_country" id="permanent_country" type="text" placeholder="Country"
+            value="{% if investorAddressDetails.addr_checkbox %}{{ investorAddressDetails.permanent_country }}{% endif %}" {% if investorAddressDetails.addr_checkbox %}readonly{% endif %} />
+        </div>
+        {% endif %}
+      </div>
+      
+
+      <div class="button-row d-flex mt-4">
+        <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
+        <button class="btn btn-primary ml-auto js-btn-next" onclick="formSubmit(event, 'address_form', 'investorAddressDetailsSave')" id='address_form_next' type="button"
+          title="Next">Next</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script>
+
+</script>

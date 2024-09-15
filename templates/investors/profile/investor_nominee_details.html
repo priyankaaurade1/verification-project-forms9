@@ -1,0 +1,238 @@
+{% load static %}
+
+{% load index %}
+<input type="text" name="nominee_form_len" id="nominee_form_len" value="{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" hidden > <!-- added on 13.04.23 (dynamic form length)-->
+
+<div class="accordion mt-3" id="nomineedetailaccordionPanelsStayOpen">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+            <button class="accordion-button " style="background-color: white; border-color: #ffffff;" type="button"
+                data-bs-toggle="collapse" data-bs-target="#nominee_detail-collapse" aria-expanded="true"
+                aria-controls="nominee_detail-collapse">
+                <h3 style="font-family: monospace, Geneva, Tahoma, sans-serif;">Nominee Details</h3>
+            </button>
+        </h2>
+        <div id="nominee_detail-collapse" class="accordion-collapse collapse show"
+            aria-labelledby="panelsStayOpen-headingOne">
+            <div class="accordion-body">
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <!-- 1st Form (added on 13.04.23) morning-->
+                        <div class="accordion" id="accordionExample">                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button"
+                                        style="background-color: white; border-color: #ffffff;"
+                                        data-bs-toggle="collapse" data-bs-target="#nominee_details_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" aria-expanded="true"
+                                        aria-controls="nominee_details_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}">
+                                        <h5>Add a new Nominee detail</h5>
+                                    </button>
+
+                                </h2>
+                                <div id="nominee_details_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" class="accordion-collapse collapse show nominee_clone"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <b>
+                                            Set as Primary &nbsp;
+                                            <input class="form-check-input other-radio" type="radio" value=""  onchange="setPrimaryRadio(this)" name="nominee_details_radio_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}">                                           
+                                        </b>
+                                        <input type="text" name="nominee_id_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" value="" hidden>
+                                        <hr>
+                                        <div class="row mt-2">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label for="nominee_firstname_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}">Nominee First Name</label>
+                                                    <input class="form-control clearinput" id="nominee_firstname_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" 
+                                                                                name="nominee_firstname_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" 
+                                                                                type="text" placeholder="Enter Nominee Name">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="nominee_middlename_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}">Nominee Middle Name</label>
+                                                    <input class="form-control clearinput" id="nominee_middlename_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" 
+                                                                                name="nominee_middlename_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" 
+                                                                                type="text" placeholder="Enter Nominee Name">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="nominee_lastname_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}">Nominee Last Name</label>
+                                                    <input class="form-control clearinput" id="nominee_lastname_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" 
+                                                                                name="nominee_lastname_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" 
+                                                                                type="text" placeholder="Enter Nominee Name">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="nominee_nickname_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}">Nickname</label>
+                                                    <input class="form-control clearinput" id="nominee_nickname_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" 
+                                                                                name="nominee_nickname_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" 
+                                                                                type="text" placeholder="Enter Nickame">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="nominee_date_of_birth_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}">Date Of Birth</label>
+                                                    <input class="form-control clearinput" id="nominee_date_of_birth_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" 
+                                                                                name="nominee_date_of_birth_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" 
+                                                                                type="date" >
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="nominee_relationship_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}">Relation </label>
+                                                    <select class="form-select ignore clearinput" id="nominee_relationship_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" name="nominee_relationship_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" required>
+                                                        <option selected>Select</option>
+                                                        <option>MOTHER</option>
+                                                        <option>FATHER</option>
+                                                        <option>WIFE</option>
+                                                        <option>HUSBAND</option>
+                                                        <option>SISTER</option>
+                                                        <option>BROTHER</option>
+                                                        <option>SON</option>
+                                                        <option>DAUGHTER</option>
+                                                        <option>OTHER</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="nominee_address_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}">Nominee Address</label>
+                                                    <input class="form-control clearinput" id="nominee_address_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" 
+                                                                                name="nominee_address_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}"  
+                                                                                type="text"  placeholder="Enter Nominee Address">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="nominee_email_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}">Nominee Email ID</label>
+                                                    <input class="form-control clearinput" id="nominee_email_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" 
+                                                                                name="nominee_email_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}"  
+                                                                                type="text" placeholder="Enter Nominee Email">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="nominee_aadhar_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}">Nominee Aadhar No</label>
+                                                    <input class="form-control clearinput" id="nominee_aadhar_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}" 
+                                                                                name="nominee_aadhar_{% if user.investordetail.nominee_details.exists %}{{user.investordetail.nominee_details.all|length|add:'1'}}{% else %}1{% endif %}"  
+                                                                                type="text" placeholder="Enter Nominee Aadhar No">
+                                            </div>
+                                            <div class="col-md-3">                                            
+                                                <button type="button" id="add_nominee_detail_form" class="btn btn-warning mt-5">Add</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                                                                                  
+                        </div>
+                        <!-- already saved form (Can be edited) (added on 13.04.23)  -->
+                        {% if user.investordetail.nominee_details.exists %}
+                        <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                {% for i in user.investordetail.nominee_details.all %}
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button"
+                                        style="background-color: white; border-color: #ffffff;"
+                                        data-bs-toggle="collapse" data-bs-target="#nominee_details_{{forloop.counter}}" aria-expanded="true"
+                                        aria-controls="nominee_details_{{forloop.counter}}">
+                                        <h5>{{i.nominee_nickname}} ({{i.nominee_relationship}})</h5>
+                                    </button>
+                                </h2>
+                                <div id="nominee_details_{{forloop.counter}}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <div class="row">
+                                            <div class="col align-self-center">
+                                        <b>
+                                            Set as Primary &nbsp;
+                                            <input class="form-ce  
+                                            check-input other-radio" type="radio" value="{{i.set_as_primary}}" {% if i.set_as_primary == True %} checked {% endif %} onchange="setPrimaryRadio(this)" name="nominee_details_radio_{{forloop.counter}} required">
+                                        </b>
+                                        <input type="text" name="nominee_id_{{forloop.counter}}" value="{{i.id}}" hidden>
+                                            </div>
+                                        <!-- Delete Button -->
+                                             <div class="col">
+                                        <form method="POST" action="{% url 'delete_nominee' %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="nominee_id" value="{{ i.id }}">
+                                            <button class="btn btn-danger" type="submit" style="float:right;" onclick="return confirm('Are you sure you want to delete this Nominee Details?')"><span class="material-symbols-outlined">delete</span></button>
+                                        </form>
+                                              </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row mt-2">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label for="nominee_firstname_{{forloop.counter}}">Nominee First Name</label>
+                                                    <input class="form-control" id="nominee_firstname_{{forloop.counter}}" name="nominee_firstname_{{forloop.counter}}"  
+                                                    value="{{i.nominee_firstname}}"  type="text" placeholder="Enter Nominee Name">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="nominee_middlename_{{forloop.counter}}">Nominee Middle Name</label>
+                                                    <input class="form-control" id="nominee_middlename_{{forloop.counter}}" name="nominee_middlename_{{forloop.counter}}"  
+                                                    value="{{i.nominee_middlename}}"  type="text" placeholder="Enter Nominee Name">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="nominee_lastname_{{forloop.counter}}">Nominee Last Name</label>
+                                                    <input class="form-control" id="nominee_lastname_{{forloop.counter}}" name="nominee_lastname_{{forloop.counter}}"  
+                                                    value="{{i.nominee_lastname}}"  type="text" placeholder="Enter Nominee Name">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="nominee_nickname_{{forloop.counter}}">Nickname</label>
+                                                    <input class="form-control" id="nominee_nickname_{{forloop.counter}}" name="nominee_nickname_{{forloop.counter}}" 
+                                                    value="{{i.nominee_nickname}}" type="text" placeholder="Enter Nickame">
+                                                    
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="nominee_date_of_birth_{{forloop.counter}}">Date of Birth</label>
+                                                    <input class="form-control" id="nominee_date_of_birth_{{forloop.counter}}" name="nominee_date_of_birth_{{forloop.counter}}" 
+                                                    value="{{i.nominee_date_of_birth|date:"Y-m-d"}}" type="date">
+                                                
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="nominee_relationship_{{forloop.counter}}">Relation</label>
+                                                    <select class="form-select ignore" id="nominee_relationship_{{forloop.counter}}" name="nominee_relationship_{{forloop.counter}}" required>
+                                                        <option selected>Select</option>
+                                                        <option value="MOTHER" {% if i.nominee_relationship == 'MOTHER' %}selected{% endif %}>MOTHER</option>
+                                                        <option value="FATHER" {% if i.nominee_relationship == 'FATHER' %}selected{% endif %}>FATHER</option>
+                                                        <option value="SISTER" {% if i.nominee_relationship == 'SISTER' %}selected{% endif %}>SISTER</option>
+                                                        <option value="BROTHER" {% if i.nominee_relationship == 'BROTHER' %}selected{% endif %}>BROTHER</option>
+                                                        <option value="SON" {% if i.nominee_relationship == 'SON' %}selected{% endif %}>SON</option>
+                                                        <option value="DAUGHTER" {% if i.nominee_relationship == 'DAUGHTER' %}selected{% endif %}>DAUGHTER</option>
+                                                        <option value="OTHER" {% if i.nominee_relationship == 'OTHER' %}selected{% endif %}>OTHER</option>
+                                                    </select>
+                                                </div>  
+                                                <div class="col-md-3">
+                                                    <label for="nominee_address_{{forloop.counter}}">Nominee Address</label>
+                                                    <input class="form-control" id="nominee_address_{{forloop.counter}}" name="nominee_address_{{forloop.counter}}"  
+                                                    value="{{i.nominee_address}}"  type="text" placeholder="Enter Nominee Address">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="nominee_email_{{forloop.counter}}">Nominee Email ID</label>
+                                                    <input class="form-control" id="nominee_email_{{forloop.counter}}" name="nominee_email_{{forloop.counter}}"  
+                                                    value="{{i.nominee_email}}"  type="text" placeholder="Enter Nominee Email">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="nominee_aadhar_{{forloop.counter}}">Nominee Aadhar No</label>
+                                                    <input class="form-control" id="nominee_aadhar_{{forloop.counter}}" name="nominee_aadhar_{{forloop.counter}}"  
+                                                    value="{{i.nominee_aadhar}}"  type="text" placeholder="Enter Nominee Aadhar No">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}                                                        
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function setPrimaryRadio(input) {
+    if (input.checked) {
+        input.value = 'True';
+        var inputs = document.getElementsByClassName('other-radio');
+        for (var i =0; i < inputs.length; i++) {
+            if (inputs[i] !== input) {
+                inputs[i].checked = false;
+                inputs[i].value = 'False';
+            }
+        }
+    } else {
+        input.value = 'False';
+    }
+}
+
+</script>

@@ -1,0 +1,834 @@
+{% extends 'partials/base.html' %}
+{% block title %} Application Form Print {% endblock %}
+{% load static %}
+{% load index %}
+{% load widget_tweaks %}
+{% block content %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
+<style>
+    
+    label{
+        font-weight: 500;
+        font-size:14px;
+    }
+    .info{
+        font-family: monospace;
+        font-size:14px;
+    }
+    h4{
+        font-size:16px;
+    }
+    .table thead th{
+        padding:5px;
+    }
+    .table tr th{
+        padding:5px;
+    }
+    .table tr td{
+        padding:5px;
+    }
+    table, th, td {
+        border: 1px solid black !important;
+        font-size: 12px;
+    }
+    
+</style>
+
+<div class="container mt-2" id ="application_form_print">
+    <div class="row mt-4">
+        <h2 style="font-family:monospace; FONT-SIZE:28;">DEMAT ACCOUNT OPENING FORM</h2>
+    </div>
+    <div class="row mt-4" style="border: 1px solid black">
+        <div class="row" style="--x-gutter-x: 0 !important; contain: content !important; padding: 10px">
+            <div class="col-20">
+                <center class="col-20">
+                <h4 style="font-family:monospace">ACKNOWLEDGEMENT RECEIPT</h4>
+            </center>   
+            </div>
+        </div>
+        <div class="row" style="--x-gutter-x: 0 !important; contain: content !important; padding: 10px;font-size:12px;">
+            <center class="col-20">
+                <label style="font-size:12px; text-align: justify; font-weight:350">
+                    Accepted / rejected the application from <span class="info" style="font-size:12px;font-weight:700;">{% for identity_detail in request_details.identity_details.all %}
+                    <u>
+                    {% if identity_detail.gender == "MALE" %}
+                        Mr. 
+                    {% else %}
+                        Ms.     
+                    {% endif %}
+                    {{ identity_detail.applicant_first_name }}
+                    {{ identity_detail.applicant_middle_name }}
+                    </u>
+                    <u>{{ identity_detail.applicant_last_name }}</u> 
+                    {% endfor %}</span>
+                    as the sole / first holder for opening of a depository account with appointed nominee Mr./Ms.
+                    <span class="info" style="font-size:12px;font-weight:700"> 
+                        {% for nominee_detail in request_details.nominee_details.all %}
+                            <u>
+                            {{ nominee_detail.nominee_firstname }}
+                            {{ nominee_detail.nominee_middlename }}
+                            </u>
+                            <u>{{ nominee_detail.nominee_lastname }}</u>
+                        {% endfor %}</span> Residing at 
+                        <span class="info" style="font-size:12px;font-weight:700;"> {% for address_detail in request_details.address_details.all %}
+                            <u>{{ address_detail.residence_address }}</u>
+                        {% endfor %}</span>
+                        on dated {% now "d/m/Y" %} .
+                    <br>Your DP ID will be intimated to you shortly on acceptance. Please quote the DP ID alloted to you in all our future correspondence. 
+                </label>     
+            </center>
+        </div>
+        <div class="row" style="--x-gutter-x: 0 !important; contain: content !important; padding: 10px">
+            <div class="col"><span class="info" style="font-size:12px;" >DATE : {% now "d/m/Y" %}</span></div>
+            <div class="col"></div>
+            <div class="col"><span class="info" style="font-size:12px;" >For Angel One Ltd </span></div>
+        </div>
+        <br>
+        <div class="row" style="--x-gutter-x: 0 !important; contain: content !important; padding: 10px">
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col"><span class="info" style="font-size:12px;">(Authorised Signatory)</span></div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <h2 style="font-family:monospace">KYC APPLICATION FORM</h2>
+    </div>
+    <div class="row mt-2">
+        <h4 style="font-family:monospace">Identity Details</h4>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label>Applicant's Name :</label>
+            <span class="info"> {% for identity_detail in request_details.identity_details.all %}
+                {{ identity_detail.applicant_first_name }}
+                {{ identity_detail.applicant_middle_name }}
+                {{ identity_detail.applicant_last_name }}
+            {% endfor %}</span>
+        </div>  
+    </div>
+    <div class="row">
+        <div class="col-6">  
+            <label>Father's Name :</label>
+            <span class="info"> {% for identity_detail in request_details.identity_details.all %}
+                {{ identity_detail.father_first_name }}
+                {{ identity_detail.father_middle_name }}
+                {{ identity_detail.father_last_name }}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label>Mother Name :</label>
+             <span class="info"> {% for identity_detail in request_details.identity_details.all %}
+                {{ identity_detail.mother_first_name }}
+                {{ identity_detail.mother_middle_name }}
+                {{ identity_detail.mother_last_name }}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Gender:</label>
+            <span class="info"> {% for identity_detail in request_details.identity_details.all %}
+                {{ identity_detail.gender }}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Birth Date :</label>
+            <span class="info"> {% for identity_detail in request_details.identity_details.all %}
+                    {{ identity_detail.date_of_birth | dateFormat }}
+                {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>Marital Status :</label>
+            <span class="info"> {% for identity_detail in request_details.identity_details.all %}
+                    {{ identity_detail.martial_status }}
+                {% endfor %}</span>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col">
+            <label>Nationality :</label>
+            
+            <span class="info"> {% for identity_detail in request_details.identity_details.all %}
+                {{ identity_detail.nationality }}
+            {% endfor %}</span>
+        </div>     
+        <div class="col">
+            <label>Status :</label>
+            <span class="info"> Resident Individual</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>PAN :</label>
+            <span class="info"> {% for identity_detail in request_details.identity_details.all %}
+                    {{ identity_detail.pan_no }}
+                {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>AADHAR :</label>
+            <span class="info"> {% for identity_detail in request_details.identity_details.all %}
+                    {{ identity_detail.aadhar_no }}
+                {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <h4 style="font-family:monospace">Address Details</h4>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Residence Address :</label>
+             <span class="info"> {% for address_detail in request_details.address_details.all %}
+                {{ address_detail.residence_address }}
+            {% endfor %}</span> 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label>City/Town/Village :</label>
+            <span class="info">
+                {% for address_detail in request_details.address_details.all %}
+                    {{ address_detail.city }}
+                {% endfor %}
+            </span>
+        </div>
+        <div class="col-6">
+            <label>District :</label>
+            <span class="info">
+                {% for address_detail in request_details.address_details.all %}
+                    {{ address_detail.district }}
+                {% endfor %}
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Pin Code :</label>
+            <span class="info"> {% for address_detail in request_details.address_details.all %}
+                {{ address_detail.pincode }}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>State :</label>
+            <span class="info"> {% for address_detail in request_details.address_details.all %}
+                {{ address_detail.state }}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>Country :</label>
+            <span class="info"> {% for address_detail in request_details.address_details.all %}
+                {{ address_detail.country }}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Contact :</label>
+            <span class="info"> {% for address_detail in request_details.address_details.all %}
+                {{ address_detail.mobile_no}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>Tel :</label>
+            <span class="info"> {% for address_detail in request_details.address_details.all %}
+                {{ address_detail.tel_no }}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>Email :</label>
+            <span class="info"> {% for address_detail in request_details.address_details.all %}
+                {{ address_detail.email_id | maskEmailID }}
+            {% endfor %}</span>
+        </div>
+    </div>
+    {% for address_detail in request_details.address_details.all %}
+    {% if address_detail.residence_address != address_detail.permanent_address %}
+    <div class="row">
+        <div class="col-3">
+            <label>Permanent Address (If different from above correspondence address) :</label>
+            <span class="info"> 
+                {{ address_detail.permanent_address }}
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label>City/Town/Village :</labeL>
+            <span class="info">
+                {{ address_detail.permanent_city }}
+            </span>
+        </div>
+        <div class="col-6">
+            <label>District :</labeL>
+            <span class="info">
+                {{ address_detail.permanent_district }}
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Pin Code :</label>
+            <span class="info">
+                {{ address_detail.permanent_pincode }}
+            </span>
+        </div>
+        <div class="col">
+            <label>State :</label>
+            <span class="info">
+                {{ address_detail.permanent_state }}
+            </span>
+        </div>
+        <div class="col">
+            <label>Country :</label>
+            <span class="info">
+                {{ address_detail.permanent_country }}
+            </span>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}   
+    <div class="row mt-2">
+        <h4 style="font-family:monospace">Declaration</h4>
+    </div>
+    <div class="row">
+        <label style="text-align: justify;">I hereby declare that the details furnished above are true and correct to the best of my knowledge and belief and I undertake to inform you of any changes therin, immediately. In case any if the above information is found to be false or untrue or misleading or misrepresenting, I am aware that I may be held liable for it.<br> I hereby consent to receiving information from Central KYC Registry through SMS/EMAIL on the above registered number/email address.</label>
+    </div>
+    <div class="row">
+        <div class="col"><label>Place : </label></div>
+    </div>
+    <div class="row">
+        <div class="col"><label>Date : </label><span class="info"> {% now "d/m/Y" %}</span></div>
+        <div class="col"><span class="info">Signature of Applicant</span></div>
+    </div>
+    <div class="row mt-2">
+        <h4 style="font-family:monospace">For Office Use Only</h4>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table style="font-size:12px">
+                <thead>
+                    <tr>
+                        <th scope="col">Details of Employee / Authorized Signatory </th>
+                        <th scope="col">Documents verified with Originals</th>
+                        <th scope="col">Client Interviewed By & In-Person Verification done by</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Name & E Code</th>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Designation</th>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Date</th>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Signature</th>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-3" style="outline:1px solid black">
+        
+        </div>
+    </div>
+
+
+    <div class="row mt-2">
+        <h4 style="font-family:monospace">Additional Details</h4>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>DP ID :</label>
+            <span class="info"> {% for additional_detail in request_details.kyc_details.all %}
+                {{ additional_detail.dp_id}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>Date :</label>
+            <span class="info"> {% for additional_detail in request_details.kyc_details.all %}
+                {{ additional_detail.first_holder_pancard}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>Client ID :</label>
+            <span class="info"> {% for additional_detail in request_details.kyc_details.all %}
+                {{ additional_detail.first_holder_pancard}}
+            {% endfor %}</span>
+        </div>
+    </div>
+     <div class="row mt-2">
+        <h4 style="font-family:monospace">Holders Details</h4>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label>First Holder's :</label>
+            <span class="info"> {% for additional_detail in request_details.kyc_details.all %}
+                {{ additional_detail.first_holder_name}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>PAN :</label>
+            <span class="info"> {% for additional_detail in request_details.kyc_details.all %}
+                {{ additional_detail.first_holder_pancard}}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Second Holder's :</label>
+            <span class="info"> {% for additional_detail in request_details.kyc_details.all %}
+                {{ additional_detail.dp_id}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>PAN :</label>
+            <span class="info"> {% for additional_detail in request_details.kyc_details.all %}
+                {{ additional_detail.first_holder_pancard}}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Third Holder's :</label>
+            <span class="info"> {% for additional_detail in request_details.kyc_details.all %}
+                {{ additional_detail.first_holder_pancard}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>PAN :</label>
+            <span class="info"> {% for additional_detail in request_details.kyc_details.all %}
+                {{ additional_detail.first_holder_pancard}}
+            {% endfor %}</span>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <h4 style="font-family:monospace">Type Of Account</h4>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Status :</label>
+            <span class="info"> {% for account_detail in request_details.account_details.all %}
+                {{ account_detail.status}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>Sub-Status :</label>
+            <span class="info"> {% for account_detail in request_details.account_details.all %}
+                {{ account_detail.sub_status}}
+            {% endfor %}</span>
+        </div>
+    </div>
+    
+    
+    <div class="row mt-2">
+        <h4 style="font-family:monospace">Guardian Details</h4>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Name :</label>
+            <span class="info"> {% for guardian_detail in request_details.guardian_details.all %}
+                {{ guardian_detail.gaurdian_name}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>Relationship :</label>
+            <span class="info"> {% for guardian_detail in request_details.guardian_details.all %}
+                {{ guardian_detail.relationship}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>PAN :</label>
+            <span class="info"> {% for guardian_detail in request_details.guardian_details.all %}
+                {{ guardian_detail.pancard}}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label>Address :</label>
+            <span class="info"> {% for guardian_detail in request_details.guardian_details.all %}
+                {{ guardian_detail.address}}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Pincode :</label>
+            <span class="info"> {% for guardian_detail in request_details.guardian_details.all %}
+                {{ guardian_detail.pincode}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>City :</label>
+            <span class="info"> {% for guardian_detail in request_details.guardian_details.all %}
+                {{ guardian_detail.city}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>State :</label>
+            <span class="info"> {% for guardian_detail in request_details.guardian_details.all %}
+                {{ guardian_detail.state}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>Country :</label>
+            <span class="info"> {% for guardian_detail in request_details.guardian_details.all %}
+                {{ guardian_detail.country}}
+            {% endfor %}</span>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Tel :</label>
+            <span class="info"> {% for guardian_detail in request_details.guardian_details.all %}
+                {{ guardian_detail.mobile_no}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>Email Id :</label>
+            <span class="info"> {% for guardian_detail in request_details.guardian_details.all %}
+                {{ guardian_detail.email_id}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>FAX :</label>
+            <span class="info"> {% for guardian_detail in request_details.guardian_details.all %}
+                {{ guardian_detail.fax_no}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">        
+        </div>       
+    </div>
+     <div class="row mt-2">
+        <h4 style="font-family:monospace">Standing Instructions</h4>
+    </div>
+    <div class="row"style="text-align: justify;">
+        <div class="col">
+            <label>I/We instruct the DP to receive each and every credit in my/our account :</label>
+            <span class="info"> {% for si_detail in request_details.si_details.all %}
+                {{ si_detail.declaration_1}}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row"style="text-align: justify;">
+        <div class="col">
+            <label>I/We would like to  instruct the DP to accept all the pledge instruction in my account
+            without any other further instruction from my/our end :</label>
+            <span class="info"> {% for si_detail in request_details.si_details.all %}
+                {{ si_detail.declaration_2}}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row"style="text-align: justify;">
+        <div class="col">
+            <label>Account Statement requirement as per SEBI Regulation :</label>
+            <span class="info"> {% for si_detail in request_details.si_details.all %}
+                {{ si_detail.account_statement}}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row"style="text-align: justify;">
+        <div class="col">
+            <label>I/We request you to send Electronic Transaction-cum-holding Statement at the email ID as provided in KRA :</label>
+            <span class="info"> {% for si_detail in request_details.si_details.all %}
+                {{ si_detail.declaration_3}}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row"style="text-align: justify;">
+        <div class="col">
+            <label>I/We would like to share the email ID with RTA :</label>
+            <span class="info"> {% for si_detail in request_details.si_details.all %}
+                {{ si_detail.declaration_4}}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row"style="text-align: justify;">
+        <div class="col">
+            <label>I/We would like to receive the Annual Report(Tick the applicable
+                box.if not marked the default option would be 'yes') :</label>
+                <span class="info"> {% for si_detail in request_details.si_details.all %}
+                    {{ si_detail.annual_report}}
+                {% endfor %}</span>
+        </div>
+            
+    </div>
+    <div class="row"style="text-align: justify;">
+        <div class="col">
+            <label>Do you wish to receive dividend/interest directly into your bank account 
+                given below through ECS? :</label>
+                <span class="info"> {% for si_detail in request_details.si_details.all %}
+                    {{ si_detail.declaration_5}}
+                {% endfor %}</span>
+        </div>
+            
+    </div>
+     <div class="row mt-2">
+        <h4 style="font-family:monospace">SMS Alert Facility</h4>
+    </div>
+    <div class="row"style="text-align: justify;">
+        <label>*I/We provide the following information for the purpose of availing SMS facility</label>
+    </div>
+    <div class="row"style="text-align: justify;">
+        <div class="col">
+            <label>Mobile Number on which Messages are to be sent : </label>
+            <span class="info"> +91{% for sms_detail in request_details.sms_details.all %}
+                {{ sms_detail.mobile_no}}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row"style="text-align: justify;">
+        <div class="col">
+            <label>The Mobile Number is registered in the name of:</label>
+            <span class="info"> {% for sms_detail in request_details.sms_details.all %}
+                {{ sms_detail.name}}
+            {% endfor %}</span>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <h4 style="font-family:monospace">Bank Details of First/Sole Holder</h4>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Name :</label>
+            <span class="info"> {% for bank_detail in request_details.bank_details.all %}
+                {{ bank_detail.bank_name }}
+            {% endfor %}</span>
+        </div>
+         <div class="col-8">
+            <label>Branch Address :</label>
+            <span class="info"> {% for bank_detail in request_details.bank_details.all %}
+                {{ bank_detail.branch_address}}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Pincode :</label>
+            <span class="info"> {% for address_detail in request_details.address_details.all %}
+                {{ address_detail.pincode}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>City :</label>
+            <span class="info"> {% for bank_detail in request_details.bank_details.all %}
+                {{ bank_detail.city}}
+            {% endfor %}</span>
+        </div>
+         <div class="col">
+            <label>Country :</label>
+            <span class="info"> {% for bank_detail in request_details.bank_details.all %}
+                {{ bank_detail.country}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>State :</label>
+            <span class="info"> {% for address_detail in request_details.address_details.all %}
+                {{ address_detail.state}}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Type :</label>
+            <span class="info"> {% for bank_detail in request_details.bank_details.all %}
+                {{ bank_detail.account_type}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>MICR :</label>
+            <span class="info"> {% for bank_detail in request_details.bank_details.all %}
+                {{ bank_detail.micr_number}}
+            {% endfor %}</span>
+        </div>
+         <div class="col">
+            <label>A/C No :</label>
+            <span class="info"> {% for bank_detail in request_details.bank_details.all %}
+                {{ bank_detail.account_no}}
+            {% endfor %}</span>
+        </div>
+         <div class="col">
+            <label>IFSC :</label>
+            <span class="info"> {% for bank_detail in request_details.bank_details.all %}
+                {{ bank_detail.ifsc_number}}
+            {% endfor %}</span>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <h4 style="font-family:monospace">Others Details For 1st Holder</h4>
+    </div>
+    <div class="row"style="text-align: justify;">
+        <div class="col">
+            <label> Gross Annual Income Details :</label>
+            <span class="info"> {% for other_detail in request_details.other_details.all %}
+                {{ other_detail.gross_annual_income_detail}}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row"style="text-align: justify;">
+       <div class="col">
+         <label> Occupation :</label>
+         <span class="info"> {% for other_detail in request_details.other_details.all %}
+             {{ other_detail.occupation}}
+         {% endfor %}</span>
+       </div>
+    </div>
+    <div class="row"style="text-align: justify;">
+        <div class="col">
+            <label>Please tick, If applicable : </label>
+            <span class="info"> {% for other_detail in request_details.other_details.all %}
+                {{ other_detail.declaration}}
+            {% endfor %}</span>
+        </div>
+    </div>
+      <div class="row"style="text-align: justify;">
+        <div class="col">
+            <label>Any Other Information :</label>
+            <span class="info"> {% for other_detail in request_details.other_details.all %}
+                {{ other_detail.other_info}}
+            {% endfor %}</span>
+        </div>
+    </div>
+    
+    
+    <div class="row mt-2">
+        <h4 style="font-family:monospace">Nominee Details</h4>
+    </div>
+      <div class="row"style="text-align: justify;">
+        <label>I/We the sole Holder/Joint Holders/Guardian(incase of minor)hereby declare that </label>
+    </div>
+    <div class="row"style="text-align: justify;">
+        <label>I/We do not wish to nominate any one for this Demat Account(Strike out what is not applicable) </label>
+    </div>
+      <div class="row"style="text-align: justify;">
+        <label>I/We hereby nominate the following person who is entitled to receive securities lying in this Demat Account,particular where of are given<br>
+        below,in the event of my/our death.</label>
+    </div>
+
+    <div class="row">
+         <div class="col">
+            <label>Nominee's Name :</label>
+            <span class="info"> {% for nominee_detail in request_details.nominee_details.all %}
+                {{ nominee_detail.nominee_firstname}}
+                {{ nominee_detail.nominee_middlename}}
+                {{ nominee_detail.nominee_lastname}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>PAN :</label>
+            <span class="info"> {% for address_detail in request_details.address_details.all %}
+                {{ address_detail.mobile_no}}
+            {% endfor %}</span>
+        </div>
+        <div class="col">
+            <label>Birth Date :</label>
+            <span class="info"> {% for nominee_detail in request_details.nominee_details.all %}
+                {{ nominee_detail.nominee_date_of_birth}}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Address :</label>
+            <span class="info"> {% for nominee_detail in request_details.nominee_details.all %}
+                {{ nominee_detail.nominee_address}}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Pincode :</label>
+            <span class="info"> {% for nominee_detail in request_details.nominee_details.all %}
+                {{ nominee_detail.nominee_pincode}}
+            {% endfor %}</span>
+        </div>
+         <div class="col">
+            <label>City :</label>
+            <span class="info"> {% for nominee_detail in request_details.nominee_details.all %}
+                {{ nominee_detail.nominee_city}}
+            {% endfor %}</span>
+        </div>
+		<div class="col">
+            <label>State :</label>
+            <span class="info"> {% for nominee_detail in request_details.nominee_details.all %}
+                {{ nominee_detail.nominee_state}}
+            {% endfor %}</span>
+        </div>
+         <div class="col">
+            <label>Country :</label>
+            <span class="info"> {% for nominee_detail in request_details.nominee_details.all %}
+                {{ nominee_detail.nominee_country}}
+            {% endfor %}</span>
+        </div>
+    </div>
+    <div class="row"> 
+         <div class="col-3">
+            <label>Mobile No :</label>
+            <span class="info"> {% for nominee_detail in request_details.nominee_details.all %}
+                {{ nominee_detail.nominee_mobile_no}}
+            {% endfor %}</span>
+        </div>
+         <div class="col-3">
+            <label>Tel :</label>
+            <span class="info"> {% for address_detail in request_details.address_details.all %}
+                {{ address_detail.mobile_no}}
+            {% endfor %}</span>
+        </div>
+         <div class="col">
+            <label>Email id :</label>
+            <span class="info"> {% for nominee_detail in request_details.nominee_details.all %}
+                {{ nominee_detail.nominee_email}}
+            {% endfor %}</span>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Relationship with Nominee(if any) :</label>
+            <span class="info"> {% for nominee_detail in request_details.nominee_details.all %}
+                {{ nominee_detail.nominee_relationship}}
+            {% endfor %}</span>
+        </div>  
+    <div>
+        <br><br><br><br>
+        <div class="row">
+            <div class="col"><span class="info">Signature of Applicant</span></div>
+            <div class="col"><span class="info">Signature of Witness 1</span></div>
+            <div class="col"><span class="info">Signature of Witness 2</span></div>
+        </div>
+</div> 
+
+        
+
+<button onclick="generatePDF()">Generate PDF</button>
+
+
+<script>
+    function generatePDF() {
+            window.print()
+    }
+
+  </script>
+
+
+{% endblock %}

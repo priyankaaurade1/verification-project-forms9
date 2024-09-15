@@ -1,0 +1,84 @@
+{% extends 'partials/base.html' %}
+{% block title %} Forms {% endblock %}
+{% load static %}
+{% load index %}
+{% block content %}
+
+
+<style>
+    th{
+        font-size: small !important;
+        font-weight: bolder !important;
+    }
+   
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+.card-title {
+  font-weight: 600;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.card-text {
+  font-size: 16px;
+}
+.form-check-input{
+  width: 1.5em; 
+  height: 1.5em;
+}
+
+</style>
+<div class="container mt-3">   
+    <div class="column">        
+        <div class="card text-center py-3">
+        <div class="table-responsive">
+            <table class="table">
+                <h3 style="font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; margin-bottom:1em;color: midnightblue;">Application's</h3>
+                <thead>
+                    <tr>
+                        <th scope="col">Request No</th>
+                        <th scope="col">Investor</th>
+                        <th scope="col">Depository</th>
+                        <th scope="col">Date Updated</th>
+                        <th scope="col">Form Status</th>
+                        <th scope="col">Approval Status</th>
+                    </tr>
+                </thead>
+                <tbody>            
+                    {% for i in requestDetails %}
+                    <tr>                          
+                        <td>{{i.requestno}}</td>
+                        <td>{{i.investor}}</td>
+                        <td>{{i.depository}}</td>
+                        <td>{{i.date_updated}}</td>
+                        <td><span class="material-symbols-outlined" style='color:{% if i.is_active == True %} red {% else %} green {% endif %};float:none !important;'>radio_button_checked</span></td>                       
+                        <td><span class="material-symbols-outlined" style='color:{% if i.is_approved == True %} green {% elif i.is_approved == False  %} red {% else %} #6c757d {% endif %};float:none !important;'>radio_button_checked</span></td>   
+                        <td>                    
+                        <form method="POST" enctype="multipart/form-data" action="{% url 'investor_application_form' %}">{% csrf_token %}
+                            <input type="text" name="request_id" value="{{i.id}}" hidden>
+                            <input type="text" name="depository_id" value="{{i.depository.id}}" hidden>
+                            <input type="text" name="profile_id" value="{{i.investor.id}}" hidden>
+                            <button class="btn btn-primary" type="submit">View</button>                            
+                        </form>   
+                        </td>
+                        {% if i.is_active == False %}
+                        <td><a href="{% url 'application_form_print' i.requestno %}" class="btn btn-outline-warning btn-sm ml-2" >Print</a></td>
+                        {% endif %}
+                    </tr>                                         
+                    
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        </div>
+            
+    </div>
+</div>
+
+<script src="{% static 'investor/investor.js' %}"></script>
+{% endblock %}
+
+

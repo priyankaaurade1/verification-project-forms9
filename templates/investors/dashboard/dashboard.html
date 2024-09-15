@@ -1,0 +1,96 @@
+{% extends 'partials/base.html' %}
+{% block nav_item_dashboard %}active{% endblock nav_item_dashboard %}
+{% block title %} User Dashboard {% endblock %}
+{% load static %}
+{% load index %}
+{% block content %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<style>
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+.card-title {
+  font-weight: 600;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.card-text {
+  font-size: 16px;
+}
+</style>
+
+<div class="container mt-5">
+  <center>
+    <h1 class="mb-2">" Be Secure "</h1>
+    <p class="mb-6"> Simplify your paperwork with our form filling solution. </p>
+  </center>
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <a href="/investor/investor_manage_profile/" class="card text-center py-4">
+        <div class="card-body">
+          <span class="material-symbols-outlined">account_circle</span>
+          <h5 class="card-title">Edit/View Profile</h5>
+          <p class="card-text">Update your personal information and preferences.</p>
+          <br>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4 mb-3">
+      <a href="/investor/depository_forms/" class="card text-center py-4">
+        <div class="card-body">
+          <span class="material-symbols-outlined">edit_square</span>
+          <h5 class="card-title">Fill Form</h5>
+          <p class="card-text">Fill out a new form and submit it for processing.</p>
+          <br>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4 mb-3">
+      <a href="/investor/investor_submitted_form/" class="card text-center py-4">
+        <div class="card-body">
+          <span class="material-symbols-outlined">list_alt</span>
+          <h5 class="card-title">View/Edit/Delete Existing Form</h5>
+          <p class="card-text">Access and manage forms you've previously submitted.</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4 mb-3">
+      <a href="/investor/investor_profile_create/" class="card text-center py-4">
+        <div class="card-body">
+          <span class="material-symbols-outlined">group_add</span>
+          <h5 class="card-title">Create Profile </h5>
+          <p class="card-text">Fill in your details to create your personalized profile</p>
+          <br>
+        </div>
+      </a>
+    </div>
+    <!-- <div class="col-md-4 mb-3">
+      <a href="/investor/investor_profile_split/" class="card text-center py-4">
+        <div class="card-body">
+          <span class="material-symbols-outlined">call_split</span>
+          <h5 class="card-title">Split</h5>
+          <p class="card-text">Split your profile, So that other member can avail benefits.</p>
+        </div>
+      </a>
+    </div> -->
+   
+    <div class="col-md-4 mb-3">
+      <a href="/investor/investor_profile_merge/" class="card text-center py-4">
+        <div class="card-body">
+          <span class="material-symbols-outlined">publish</span>
+          <h5 class="card-title">Manage Family Members</h5>
+          <p class="card-text">Add accounts to manage under your family.</p>
+          <br>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

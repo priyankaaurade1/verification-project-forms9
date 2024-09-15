@@ -1,0 +1,54 @@
+ 
+{% load index %}
+
+<form {% if requestDetails.is_active == False %} inert {% endif %}  id="document_upload_form" enctype="multipart/form-data">
+    <div class="multisteps-form__panel shadow p-4 rounded bg-white " data-animation="scaleIn">
+        <div style="display: flex;flex-wrap: wrap;flex-direction: row;justify-content: space-between;margin-bottom: 1.5em;">
+            <h3 class="multisteps-form__title">Document Upload</h3><p style="color: rgb(219, 62, 62);"><b>NOTE:</b> The images which are selected will be submitted with this form.</p><hr>
+            <!-- <button type="button" onclick="autofill(event,'smsAlertAPI', 'sms_alert_forms')" id="load_smsAlert_details" data-toggle="tooltip" data-placement="top" title="Load Data From Prev. Saved From ?"><i class="fa fa-refresh" aria-hidden="true"></i> </button> -->
+        </div>
+        <div class="multisteps-form__content">   
+            <div class="row mt-2">
+                {% for i in 'image'|image_choices|as_chunk:3 %} 
+                  {% for j in i %}
+                    <div class="col">
+                        <div class="image-column" style="display: flex; justify-content: space-between;align-items: center;">
+                        <p>{{j}}</p>
+                        <button class="btn btn-warning btn-sm" type="button" value="{{j}}" onclick="showImagesModal(this.value)">View</button>
+                        </div>
+                        <p>Selected: <b id="{{j}}" class="imagecount">12</b></p>
+                    </div>       
+                  {% endfor %}        
+                {% endfor %}
+            </div>
+              
+            <div class="button-row d-flex mt-4">                
+                <button class="btn btn-primary ml-auto js-btn-next" onclick="formSubmit(event, 'document_upload_save', 'document_upload_save')"  type="button" id="document_upload_form_next" title="Next">Next</button>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="modal fade" id="imageModalShow" tabindex="-1" aria-labelledby="imageModalShowLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="alert alert-primary" role="alert">
+                    Check to set Image as Primary <input class="form-check-input other-radio ml-2" type="checkbox" checked disabled></p>
+                </div>
+                <div class="col-md-5" >
+                    <label for="file" style="margin-bottom: 0.3em !important;">Upload New :</label>
+                    <div style="display: flex;flex-wrap: nowrap;flex-direction: row;">
+                        <input class="form-control" type="file" id="modal_file" name="modal_file" multiple accept="image/*">  
+                        <button class="btn btn-primary btn-sm ml-3"  id="modal_image_upload" type="button" onclick="modalImageUpload(this.value)">Submit</button>                                                
+                    </div>
+                </div> 
+                <hr>
+
+                <h4 id="image_modal_heading"></h4>
+                <div class="row m-2" id="image_modal_row">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

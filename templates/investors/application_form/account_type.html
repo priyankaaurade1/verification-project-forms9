@@ -1,0 +1,75 @@
+{% load index %}
+<form  {% if requestDetails.is_active == False %} inert {% endif %} id = "account_type_form">
+<div class="multisteps-form__panel shadow p-4 rounded bg-white " data-animation="scaleIn">
+  <div style="display: flex;flex-wrap: wrap;flex-direction: row;justify-content: space-between;">
+    <h3 class="multisteps-form__title">Type of Account</h3>
+    <button type="button" onclick="autofill(event,'accountTypeAPI', 'account_type_form')" id="load_accType_details" data-toggle="tooltip" data-placement="top" title="Load Data From Prev. Saved From ?" ><i class="fa fa-refresh" aria-hidden="true"></i> </button>
+  </div>
+    
+    <div class="multisteps-form__content">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" name="a_status">Status</th>
+                <th scope="col" name="a_sub_status">Sub - Status</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  {% if 'status' in investorAccountTypeFields %}
+                  <th scope="row"><span><input class="form-check-input account-checkbox" type="radio" name="status" value="Individual" {% if investorAccountType.status == 'Individual' %} checked {% endif %}>Individual</span></th>
+                  <td>
+                    
+                      {% if 'sub_status' in investorAccountTypeFields %}
+                      <input class="form-check-input account-radio" type="radio" name="sub_status" value="Resident" {% if investorAccountType.sub_status == 'Resident' %} checked {% endif %}>Individual Resident <br>
+                      <input class="form-check-input account-radio" type="radio" name="sub_status" value="Relative" {% if investorAccountType.sub_status == 'Relative' %} checked {% endif %}>Individual Director's Relative<br>
+                      <input class="form-check-input account-radio" type="radio" name="sub_status" value="Promoter" {% if investorAccountType.sub_status == 'Promoter' %} checked {% endif %}>Individual Promoter<br>
+                      <input class="form-check-input account-radio" type="radio" name="sub_status" value="Director" {% if investorAccountType.sub_status == 'Director' %} checked {% endif %}>Individual Director<br>
+                      <input class="form-check-input account-radio" type="radio" name="sub_status" value="Margin" {% if investorAccountType.sub_status == 'Margin' %} checked {% endif %}>Individual Margin Trading A/c (MANTRA)<br>
+                      <input class="form-check-input account-radio" type="radio" name="sub_status" value="HUF" {% if investorAccountType.sub_status == 'HUF' %} checked {% endif %}>Individual HUF / AOP<br>
+                      <input class="form-check-input account-radio" type="radio" name="sub_status" value="Minor" {% if investorAccountType.sub_status == 'Minor' %} checked {% endif %}>Minor<br>
+                      {% endif %}
+                  </td>
+                  {% endif %}
+                </tr>
+                <tr>
+                  {% if 'status' in investorAccountTypeFields %}
+                  <th scope="row"><span><input class="form-check-input account-checkbox" type="radio" name="status" value="NRI" {% if investorAccountType.status == 'NRI' %} checked {% endif %}>NRI</span></th>
+                  <td>
+                    {% if 'sub_status' in investorAccountTypeFields %}
+                      <input class="form-check-input account-radio" type="radio" name="sub_status"  value="Repatriable" {% if investorAccountType.sub_status == 'Repatriable' %} checked {% endif %}>NRI Repatriable<br>
+                      <input class="form-check-input account-radio" type="radio" name="sub_status"  value="Non - Repatriable" {% if investorAccountType.sub_status == 'Non - Repatriable' %} checked {% endif %}>NRI Non - Repatriable<br>
+                      <input class="form-check-input account-radio" type="radio" name="sub_status"  value="Repatriable Promoter" {% if investorAccountType.sub_status == 'Repatriable Promoter' %} checked {% endif %}>NRI Repatriable Promoter<br>
+                      <input class="form-check-input account-radio" type="radio" name="sub_status"  value="Non - Repatriable Promoter" {% if investorAccountType.sub_status == 'Non - Repatriable Promoter' %} checked {% endif %}>NRI Non - Repatriable Promoter<br>
+                      <input class="form-check-input account-radio" type="radio" name="sub_status"  value="Depository Receipts" {% if investorAccountType.sub_status == 'Depository Receipts' %} checked {% endif %}>NRI Depository Receipts<br>
+                    {% endif %}
+                  </td>
+                  {% endif %}
+                </tr>
+                <tr>
+                  {% if 'status' in investorAccountTypeFields %}
+                  <th scope="row" {% if investorAccountType.sub_status == 'Minor' %} checked {% endif %}><span><input class="form-check-input account-checkbox" type="radio" name="status" id="inlineRadio20" value="Foreign" {% if investorAccountType.status == 'Foreign' %} checked {% endif %}>Foreign National</span></th>
+                  <td>
+                    {% if 'sub_status' in investorAccountTypeFields %}
+                      <input class="form-check-input account-radio" type="radio" name="sub_status" value="National" {% if investorAccountType.sub_status == 'National' %} checked {% endif %}>Foreign National<br>
+                      <input class="form-check-input account-radio" type="radio" name="sub_status" value="National - Depository Receipts" {% if investorAccountType.sub_status == 'National - Depository Receipts' %} checked {% endif %}>Foreign National - Depository Receipts<br>
+                    {% endif %}
+                  </td>
+                  {% endif %}
+                </tr>
+            </tbody>
+        </table>
+        <div class="button-row d-flex mt-4">
+            <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
+            <button class="btn btn-primary ml-auto js-btn-next" onclick="formSubmit(event, 'account_type_form', 'investorAccountTypeDetailsSave')" id='account_type_form_next' type="button" title="Next">Next</button>
+        </div>
+    </div>
+
+    <script>
+    $( ".account-checkbox" ).change(function() {
+      $(".account-radio").prop('checked', false);
+    })
+    </script>
+    
+</div>
+</form>

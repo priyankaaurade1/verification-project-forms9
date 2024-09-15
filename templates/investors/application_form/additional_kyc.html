@@ -1,0 +1,124 @@
+{% load index %}
+<form {% if requestDetails.is_active == False %} inert {% endif %}  id="additional_kyc_form">
+    <div class="multisteps-form__panel shadow p-4 rounded bg-white " data-animation="scaleIn">
+        <div style="display: flex;flex-wrap: wrap;flex-direction: row;justify-content: space-between;">
+        <h3 class="multisteps-form__title">Additional KYC - Individual</h3>
+        <button type="button" onclick="autofill(event,'additionalKycDetailsAPI','additional_kyc_form')" id="load_additionalKyc_details" data-toggle="tooltip" data-placement="top" title="Load Data From Prev. Saved From ?" ><i class="fa fa-refresh" aria-hidden="true"></i> </button>
+        </div>
+        <div class="multisteps-form__content">
+            <div class="form-row mt-4">
+                {% if 'dp_reference_number' in investorAdditionalKycDetailsFields %}
+                <label for="dp_reference_number" class="col-12 col-sm-3">DP Internal Reference No. : </label>
+                <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control" name="dp_reference_number" id="dp_reference_number" type="text" placeholder="Enter DP Internal Reference No." 
+                    value="{% if investorAdditionalKycDetails.dp_reference_number %}{{investorAdditionalKycDetails.dp_reference_number}}{% endif %}"/>
+                </div> 
+                {% endif %}
+                {% if 'kycdate' in investorAdditionalKycDetailsFields %}
+                <label for="kycdate" class="col-12 col-sm-3">Date : </label>
+                <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control" name="kycdate" id="kycdate" type="date"
+                    value="{% if investorAdditionalKycDetails.kycdate %}{{ investorAdditionalKycDetails.kycdate|date:'Y-m-d' }}{% endif %}" />
+                </div>
+                {% endif %}
+            </div>
+            
+
+            <div class="form-row mt-4">
+                {% if 'dp_id' in investorAdditionalKycDetailsFields %}
+                <label for="dpid" class="col-12 col-sm-3">DP ID : </label>
+                <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control" name="dp_id"  id="dp_id" type="text" placeholder="Enter DP ID"
+                    value="{% if investorAdditionalKycDetails.dp_id %}{{investorAdditionalKycDetails.dp_id}}{% else %}{{user.documentupload.pp_id}}{% endif %}" />
+                </div>
+                {% endif %}
+
+                {% if 'client_id' in investorAdditionalKycDetailsFields %}
+                <label for="client_id" class="col-12 col-sm-3">Client ID : </label>
+                <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control" name="client_id" id="client_id" type="text"
+                       value="{% if investorAdditionalKycDetails.client_id %}{{investorAdditionalKycDetails.client_id}}{% else %}{{user.documentupload.client_id_1}}{% endif %}" placeholder="Enter Client ID" />
+                </div>
+                {% endif %}
+            </div>
+            <div class="form-row mt-4">
+                <label for="depository" class="col-12 col-sm-12">
+                    I / We request you to open a Depository Account in my / our name as per the following details:
+                </label>
+            </div>
+            <div class="form-row mt-4">
+                <label for="holders" class="col-12 col-sm-12">
+                    <b>Holders Details</b>
+                </label>
+            </div>
+
+            <div class="form-row mt-4">
+                {% if 'first_holder_name' in investorAdditionalKycDetailsFields %}
+                <label for="first_holder_name" class="col-12 col-sm-3">Sole / First Holder's Name : </label>
+                <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control" name="first_holder_name" id="first_holder_name" type="text"
+                    value="{% if investorAdditionalKycDetails.first_holder_name %}{{investorAdditionalKycDetails.first_holder_name}}{% endif %}"  placeholder="Enter Sole / First Holder's Name" />
+                </div>
+                {% endif %}
+                {% if 'first_holder_pancard' in investorAdditionalKycDetailsFields %}
+                <label for="first_holder_pancard" class="col-12 col-sm-3">Pan Card : </label>
+                <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control" name="first_holder_pancard" id="first_holder_pancard" type="text"
+                        value="{% if investorAdditionalKycDietails.first_holder_pancard %}{{investorAdditionalKycDetails.first_holder_pancard}}{% endif %}"  placeholder="Enter Pan Card" />
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-row mt-4">
+                {% if 'second_holder_name' in investorAdditionalKycDetailsFields %}
+                <label for="second_holder_name" class="col-12 col-sm-3">Second Holder's Name : </label>
+                <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control" name="second_holder_name" id="second_holder_name" type="text"
+                    value="{% if investorAdditionalKycDetails.second_holder_name %}{{investorAdditionalKycDetails.second_holder_name}}{% endif %}" placeholder="Enter Second Holder's Name" />
+                </div>
+                {% endif %}
+                {% if 'second_holder_pancard' in investorAdditionalKycDetailsFields %}
+                <label for="second_holder_pancard" class="col-12 col-sm-3">Pan Card : </label>
+                <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control" name="second_holder_pancard" id="second_holder_pancard" type="text"
+                    value="{% if investorAdditionalKycDetails.second_holder_pancard %}{{investorAdditionalKycDetails.second_holder_pancard}}{% endif %}" placeholder="Enter Pan Card" />
+                </div>
+                {% endif %}
+            </div>
+
+
+            <div class="form-row mt-4">
+                {% if 'third_holder_name' in investorAdditionalKycDetailsFields %}
+                <label for="third_holder_name" class="col-12 col-sm-3">Third Holder's Name : </label>
+                <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control" name="third_holder_name" id="third_holder_name"  type="text"
+                    value="{% if investorAdditionalKycDetails.third_holder_name %}{{investorAdditionalKycDetails.third_holder_name}}{% endif %}" placeholder="Enter Third Holder's Name" />
+                </div>
+                {% endif %}
+                {% if 'third_holder_pancard' in investorAdditionalKycDetailsFields %}
+                <label for="third_holder_pancard" class="col-12 col-sm-3">Pan Card : </label>
+                <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control" name="third_holder_pancard" id="third_holder_pancard" type="text"
+                    value="{% if investorAdditionalKycDetails.third_holder_pancard %}{{investorAdditionalKycDetails.third_holder_pancard}}{% endif %}" placeholder="Enter Pan Card" />
+                </div>
+                {% endif %}
+            </div>
+
+            
+            <div class="form-row mt-4 ml-4">
+                <label for="association" class="col-12 col-sm-12 text-justify">
+                    * In case of Firms, Association of persons (AOP), Partnership Firm, Unregistered Trust, etc.,
+                    although the account is open in the name of natural persons the name of the Firm, Association of
+                    persons (AOP), Partnership Firm, Unregistered Trust, etc., should be made applicable.
+                </label>
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="declaration" value="{% if investorAdditionalKycDetails.declaration %}{{investorAdditionalKycDetails.declaration}}{% endif %}" {% if investorAdditionalKycDetails.declaration == True %} checked {% endif %} onchange="if (this.checked) { this.value = 'True'; } else { this.value = 'False'; }">
+
+            </div>
+            <div class="button-row d-flex mt-4">
+                <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
+                <button class="btn btn-primary ml-auto js-btn-next" onclick="formSubmit(event, 'additional_kyc_form', 'investorAdditionalKycDetailsSave')" id='additional_kyc_form_next' type="button"
+                    title="Next">Next</button>
+            </div>
+        </div>
+    </div>
+</form>

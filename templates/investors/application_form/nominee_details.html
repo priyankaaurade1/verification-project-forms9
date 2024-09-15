@@ -1,0 +1,171 @@
+{% load index %}
+<form {% if requestDetails.is_active == False %} inert {% endif %}   id = "nominee_form">
+  <div class="multisteps-form__panel shadow p-4 rounded bg-white " data-animation="scaleIn">
+    <div style="display: flex;flex-wrap: wrap;flex-direction: row;justify-content: space-between;">
+      <h3 class="multisteps-form__title">Nominee Details for DEMAT Account</h3>
+      <button type="button" onclick="autofill(event, 'nomineeDetailsAPI','nominee_form')" id="load_nominee_details" data-toggle="tooltip" data-placement="top" title="Load Data From Prev. Saved From ?" ><i class="fa fa-refresh" aria-hidden="true"></i> </button>
+    </div>
+    
+    <div class="multisteps-form__content">
+      {% for nominee_detail in user|filter_nominee_details %}
+
+              <label>I/We the sole Holder/ Joint Holders /Guardian (incaseof Minor) hereby declare that: </label>
+              <br> 
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" name="declaration1" 
+                value="{{nominee_detail.nominee_declaration_1}}"
+                {% if nominee_detail.nominee_declaration_1 == True %} checked {% endif %}
+                onchange="if (this.checked) { this.value = 'True'; } else { this.value = 'False'; }">
+                <label> I/We do not wish to nominate any onefor this Demat Account.</label>
+              </div>
+          
+              <br> 
+              <div class="form-check form-check-inline">
+                <input style="width:20px" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" name="declaration2" 
+                value="{{nominee_detail.nominee_declaration_2}}"
+                {% if nominee_detail.nominee_declaration_2 == True %} checked {% endif %}
+                onchange="if (this.checked) { this.value = 'True'; } else { this.value = 'False'; }">
+                <label> We hereby nominate the following person who is entitled to receive securities lyingin this Demat Acount, particulars whereat are given below, in the event of my /our death. </label>
+              </div>
+
+              <div class="form-row mt-4">
+                {% if 'registration_no' in investorNomineeDetailsFields %}
+                  <label  class="col-12 col-sm-3">Nominee Registration No. : </label>
+                  <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control"  name='registration_no' id="registration_no"  type="text" placeholder="Enter Nominee Registration No."
+                    value="{{nominee_detail.registration_no}}"/>
+                  </div>
+                {% endif %}
+                {% if 'title' in investorNomineeDetailsFields %}
+                  <label class="col-12 col-sm-3">Title : </label>
+                    <select class="form-select col-12 col-sm-3 ignore" id="title" name="title" required>
+                      <option selected>Select</option>
+                      <option value="MR" {% if nominee_detail.title == 'MR' %}selected{% endif %}>MR.</option>
+                      <option value="MRS" {% if nominee_detail.title == 'MRS' %}selected{% endif %}>MRS.</option>
+                      <option value="MS" {% if nominee_detail.title == 'MS' %}selected{% endif %}>MS.</option>
+                      <option value="OTHER" {% if nominee_detail.title == 'OTHER' %}selected{% endif %}>OTHER</option>
+                    </select>
+                {% endif %}
+              </div>
+      
+              <div class="form-row mt-4">
+                  <label for="nrname" class="col-12 col-sm-3">Nominee Name : </label>
+                  {% if 'nominee_firstname' in investorNomineeDetailsFields %}
+                    <div class="col-12 col-sm-3">
+                      <input class="multisteps-form__input form-control" type="text" placeholder="First Name" name ='nominee_firstname'
+                      value="{{nominee_detail.nominee_firstname}}" />
+                    </div>
+                  {% endif %}
+
+                  {% if 'nominee_middlename' in investorNomineeDetailsFields %}
+                    <div class="col-12 col-sm-3 ">
+                      <input class="multisteps-form__input form-control" type="text" placeholder="Middle Name" name = 'nominee_middlename'
+                      value="{{nominee_detail.nominee_middlename}}" />
+                    </div>
+                  {% endif %}
+                  
+                  {% if 'nominee_lastname' in investorNomineeDetailsFields %}
+                    <div class="col-12 col-sm-3 ">
+                      <input class="multisteps-form__input form-control" type="text" placeholder="Last Name" name = 'nominee_lastname'
+                      value="{{nominee_detail.nominee_lastname}}" />
+                    </div>
+                  {% endif %}
+              </div>
+            
+              <div class="form-row mt-4">
+                {% if 'nominee_address' in investorNomineeDetailsFields %}
+                  <label class="col-12 col-sm-3">Nominee Address : </label>
+                  <div class="col-12 col-sm-9">
+                    <input class="multisteps-form__input form-control" type="textarea" placeholder="Address" name = 'nominee_address' id="nominee_address"
+                    value="{{nominee_detail.nominee_address}}" />
+                  </div> 
+                {% endif %}       
+              </div>
+          
+
+              <div class="form-row mt-4">
+                {% if 'nominee_city' in investorNomineeDetailsFields %}
+                  <label for="nominee_city" class="col-12 col-sm-2">City : </label>
+                  <div class="col-12 col-sm-2">
+                    <input class="multisteps-form__input form-control" name="nominee_city" id="nominee_city"  type="text" placeholder="City" 
+                    value="{{nominee_detail.nominee_city}}"/>
+                  </div>
+                {% endif %}
+
+                {% if 'nominee_pincode' in investorNomineeDetailsFields %}
+                  <label for='nominee_pincode' class="col-12 col-sm-1">Pincode : </label>
+                  <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control" name="nominee_pincode" id="nominee_pincode"  type="number" placeholder="Pincode" 
+                    value="{{nominee_detail.nominee_pincode}}"/>
+                  </div>
+                {% endif %}
+
+                {% if 'nominee_state' in investorNomineeDetailsFields %}
+                  <label  for= 'nominee_state' class="col-12 col-sm-1">State : </label>
+                  <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control"  name='nominee_state' id="nominee_state" type="text" placeholder="State" 
+                    value="{{nominee_detail.nominee_state}}"/>
+                  </div>
+                {% endif %}
+              </div>
+            
+              <div class="form-row mt-4">
+                {% if 'nominee_country' in investorNomineeDetailsFields %}
+                  <label for='nominee_country' class="col-12 col-sm-2">Country : </label>
+                  <div class="col-12 col-sm-2">
+                    <input class="multisteps-form__input form-control" name = 'nominee_country' id="nominee_country"  type="text" placeholder="Country" 
+                    value="{{nominee_detail.nominee_country}}"/>
+                  </div>
+                {% endif %}
+
+                {% if 'nominee_date_of_birth' in investorNomineeDetailsFields %}
+                  <label  for='nominee_date_of_birth' class="col-12 col-sm-1">DOB : </label>
+                  <div class="col-12 col-sm-3">
+                      <input class="multisteps-form__input form-control"  name='nominee_date_of_birth' id="nominee_date_of_birth"  type="date" 
+                      value="{{nominee_detail.nominee_date_of_birth|date:'Y-m-d' }}"/>
+                  </div>
+                {% endif %}
+                {% if 'nominee_mobile_no' in investorNomineeDetailsFields %}
+                  <label for="nominee_mobile_no" class="col-12 col-sm-1">Mobile : </label>
+                  <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control" name="nominee_mobile_no" id="nominee_mobile_no"  type="number" placeholder="Mobile" 
+                    value="{{nominee_detail.nominee_mobile_no}}"/>
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="form-row mt-4">
+                {% if 'nominee_pancard' in investorNomineeDetailsFields %}
+                <label  for='nominee_pancard' class="col-12 col-sm-2">PAN : </label>
+                <div class="col-12 col-sm-2">
+                  <input class="multisteps-form__input form-control" name="nominee_pancard" id="nominee_pancard" type="text" placeholder="PAN" 
+                  value="{{nominee_detail.nominee_pancard}}"/>
+                </div>
+                {% endif %}
+
+                {% if 'nominee_email_id' in investorNomineeDetailsFields %}
+                <label for="nominee_email_id" class="col-12 col-sm-1">EMAIL : </label>
+                <div class="col-12 col-sm-3">
+                  <input class="multisteps-form__input form-control"  name='nominee_email_id' id="nominee_email_id"  type="email" placeholder="Email" 
+                  value="{{nominee_detail.nominee_email_id}}"/>
+                </div>
+                {% endif %}
+              </div>
+
+              {% if 'nominee_relationship' in investorNomineeDetailsFields %}
+              <div class="form-row mt-4">
+                <label  for='nominee_relationship' class="col-12 col-sm-3">Nominee Relationship : </label>
+                <div class="col-12 col-sm-9">
+                  <input class="multisteps-form__input form-control" type="text" placeholder="Relationship"  name = 'nominee_relationship' id="nominee_relationship"
+                  value="{{nominee_detail.nominee_relationship}}" />
+                </div>        
+              </div>
+              {% endif %}
+              <div class="button-row d-flex mt-4">
+                <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
+                <button class="btn btn-primary ml-auto js-btn-next" onclick="formSubmit(event, 'nominee_form', 'investorNomineeDetailsSave')" id="nominee_form_next" type="button" title="Next">Next</button>
+              </div>
+      {% endfor %}
+    </div>
+  </div>
+</form>

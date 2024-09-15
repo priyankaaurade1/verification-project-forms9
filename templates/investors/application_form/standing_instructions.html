@@ -1,0 +1,111 @@
+{% load index %}
+<form {% if requestDetails.is_active == False %} inert {% endif %}   id = "standing_instruction_form">
+<div class="multisteps-form__panel shadow p-4 rounded bg-white " data-animation="scaleIn">
+    <div style="display: flex;flex-wrap: wrap;flex-direction: row;justify-content: space-between;">
+      <h3 class="multisteps-form__title">Standing Instructions</h3>
+      <button type="button" onclick="autofill(event,'standingInstructionsAPI', 'standing_instruction_form')" id="load_standingInstruction_details" data-toggle="tooltip" data-placement="top" title="Load Data From Prev. Saved From ?" ><i class="fa fa-refresh" aria-hidden="true"></i> </button>
+
+    </div>
+    <div class="multisteps-form__content">
+        <table class="table">
+            <thead>
+              <tr>
+              </tr>
+            </thead>
+            <tbody>
+              {% if 'declaration_1' in investorStandingInstructionsFields %}
+              <tr>
+                <th scope="row">
+                    I/We instruct the DP to receive each and every credit in my/our account.</br>
+                    (If not marked, default option would be 'Yes')
+                </th>
+                <td>
+                    <label  for='siautocredit' style="float: left">[Automatic Credit]</label></br>
+                    <input class="form-check-input" type="radio" name = 'declaration_1' value="Yes" {% if investorStandingInstructions.declaration_1 == 'Yes' %} checked {% endif %}>Yes<br>
+                    <input class="form-check-input" type="radio" name = 'declaration_1' value="No"  {% if investorStandingInstructions.declaration_1 == 'No' %} checked {% endif %}>No<br>
+                </td>
+              </tr>
+              {% endif %}
+              {% if 'declaration_2' in investorStandingInstructionsFields %}
+              <tr>
+                <th scope="row">
+                    I/We instruct the DP to accept all the pledge instructions in my/our account without any further instruction from my/our end.</br>
+                    (If not marked, default option would be 'No')
+                </th>
+                <td>
+                    <input class="form-check-input" type="radio"  name = 'declaration_2' value="Yes" {% if investorStandingInstructions.declaration_2 == 'Yes' %} checked {% endif %}>Yes<br>
+                    <input class="form-check-input" type="radio"   name = 'declaration_2' value="No" {% if investorStandingInstructions.declaration_2 == 'No' %} checked {% endif %}>No<br>
+                </td>
+              </tr>
+              {% endif %}
+              {% if 'account_statement' in investorStandingInstructionsFields %}
+              <tr>
+                <th scope="row">
+                    Account Statement Requirement
+                </th>
+                <td>
+                    <input class="form-check-input" type="radio" name = 'account_statement' {% if investorStandingInstructions.account_statement == 'As per SEBI Regulation' %} checked {% endif %} value="As per SEBI Regulation">As per SEBI Regulation<br>
+                    <input class="form-check-input" type="radio" name = 'account_statement' {% if investorStandingInstructions.account_statement == 'Daily' %} checked {% endif %} value="Daily">Daily<br>
+                    <input class="form-check-input" type="radio" name = 'account_statement' {% if investorStandingInstructions.account_statement == 'Weekly' %} checked {% endif %} value="Weekly">Weekly<br>
+                    <input class="form-check-input" type="radio" name = 'account_statement' {% if investorStandingInstructions.account_statement == 'Fortnightly' %} checked {% endif %} value="Fortnightly">Fortnightly<br>
+                    <input class="form-check-input" type="radio" name = 'account_statement' {% if investorStandingInstructions.account_statement == 'Monthly' %} checked {% endif %} value="Monthly">Monthly<br>
+                </td>
+              </tr>
+              {% endif %}
+              {% if 'declaration_3' in investorStandingInstructionsFields %}
+              <tr>
+                <th scope="row">
+                    I/We request you to send Electronic Transaction-cum-holding Statement at the email ID as provided in KRA.
+                </th>
+                <td>
+                    <input class="form-check-input" type="radio" name = 'declaration_3' value="Yes" {% if investorStandingInstructions.declaration_3 == 'Yes' %} checked {% endif %}>Yes<br>
+                    <input class="form-check-input" type="radio"  name = 'declaration_3' value="No" {% if investorStandingInstructions.declaration_3 == 'No' %} checked {% endif %}>No<br>
+                </td>
+              </tr>
+              {% endif %}
+              {% if 'declaration_4' in investorStandingInstructionsFields %}
+              <tr>
+                <th scope="row">
+                    I/We request you to share the email ID with RTA.
+                </th>
+                <td>
+                    <input class="form-check-input" type="radio"  name = 'declaration_4' value="Yes" {% if investorStandingInstructions.declaration_4 == 'Yes' %} checked {% endif %}>Yes<br>
+                    <input class="form-check-input" type="radio"  name = 'declaration_4' value="No" {% if investorStandingInstructions.declaration_4 == 'No' %} checked {% endif %}>No<br>
+                </td>
+              </tr>
+              {% endif %}
+              {% if 'annual_report' in investorStandingInstructionsFields %}
+              <tr>
+                <th scope="row">
+                    I/We would like to receive the Annual Report.<br>
+                    (If not marked, default option would be 'Physical')
+                </th>
+                <td>
+                    <input class="form-check-input" type="radio" name = 'annual_report' {% if investorStandingInstructions.annual_report == 'Physical' %} checked {% endif %} value="Physical" >Physical<br>
+                    <input class="form-check-input" type="radio" name = 'annual_report' {% if investorStandingInstructions.annual_report == 'Electronic' %} checked {% endif %} value="Electronic">Electronic<br>
+                    <input class="form-check-input" type="radio" name = 'annual_report' {% if investorStandingInstructions.annual_report == 'Both Physical and Electronic' %} checked {% endif %} value="Both Physical and Electronic">Both Physical and Electronic<br>
+                </td>
+              </tr>
+              {% endif %}
+              {% if 'declaration_5' in investorStandingInstructionsFields %}
+              <tr>
+                <th scope="row">
+                    Do you wish to receive dividend/interest directly into your bank account given below through ECS?<br>
+                    (If not marked, default option would be 'Yes')<br>
+                    <b>[ECS is mandatory for locations notified by SEBI from time to time]</b><br>
+                </th>
+                <td>
+                    <input class="form-check-input" type="radio" name = 'declaration_5' value="Yes" {% if investorStandingInstructions.declaration_5 == 'Yes' %} checked {% endif %} >Yes<br>
+                    <input class="form-check-input" type="radio" name = 'declaration_5' value="No" {% if investorStandingInstructions.declaration_5 == 'No' %} checked {% endif %}>No<br>
+                </td>
+              </tr>
+              {% endif %}
+            </tbody>
+        </table>
+        <div class="button-row d-flex mt-4">
+            <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
+            <button class="btn btn-primary ml-auto js-btn-next" onclick="formSubmit(event, 'standing_instruction_form', 'investorStandingInstructionsSave')" id="standing_instruction_form_next" type="button" title="Next">Next</button>
+        </div>
+    </div>
+</div>
+</form>

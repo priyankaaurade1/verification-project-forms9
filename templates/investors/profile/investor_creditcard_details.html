@@ -1,0 +1,184 @@
+{% load static %}
+{% load index %}
+<input type="text" name="cc_form_len" id="cc_form_len" value="{% if user.investordetail.cc_details.exists %}{{user.investordetail.cc_details.all|length|add:'1'}}{% else %}1{% endif %}" hidden > <!-- added on 13.04.23 (dynamic form length)-->
+<div class="accordion mt-3" id="creditcarddetailaccordionPanelsStayOpen">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+            <button class="accordion-button " style="background-color: white; border-color: #ffffff;" type="button"
+                data-bs-toggle="collapse" data-bs-target="#creditcard_detail-collapse" aria-expanded="true"
+                aria-controls="creditcard_detail-collapse">
+                <h3 style="font-family: monospace, Geneva, Tahoma, sans-serif;">Credit Card Details</h3>
+            </button>
+        </h2>
+        <div id="creditcard_detail-collapse" class="accordion-collapse collapse show"
+            aria-labelledby="panelsStayOpen-headingOne">
+            <div class="accordion-body">
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <!-- 1st Form (added on 13.04.23) morning-->
+                        <div class="accordion" id="accordionExample">                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button"
+                                        style="background-color: white; border-color: #ffffff;"
+                                        data-bs-toggle="collapse" data-bs-target="#creditcard_details_{% if user.investordetail.cc_details.exists %}{{user.investordetail.cc_details.all|length|add:'1'}}{% else %}1{% endif %}" aria-expanded="true"
+                                        aria-controls="creditcard_details_{% if user.investordetail.cc_details.exists %}{{user.investordetail.cc_details.all|length|add:'1'}}{% else %}1{% endif %}">
+                                        <h5>Add a new Credit Card detail</h5>
+                                    </button>
+                                </h2>
+                                <div id="creditcard_details_{% if user.investordetail.cc_details.exists %}{{user.investordetail.cc_details.all|length|add:'1'}}{% else %}1{% endif %}" class="accordion-collapse collapse show cc_clone"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <b>
+                                            Set as Primary &nbsp;
+                                            <input class="form-check-input other-radio" type="radio" value=""  onchange="setPrimaryRadio(this)" name="cc_details_radio_{% if user.investordetail.cc_details.exists %}{{user.investordetail.cc_details.all|length|add:'1'}}{% else %}1{% endif %}">                                           
+                                        </b>
+                                        <input type="text" name="cc_id_{% if user.investordetail.cc_details.exists %}{{user.investordetail.cc_details.all|length|add:'1'}}{% else %}1{% endif %}" value="" hidden>
+                                        
+                                        <hr>
+                                        <div class="row mt-2">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label for="cc_bank_name_{% if user.investordetail.cc_details.exists %}{{user.investordetail.cc_details.all|length|add:'1'}}{% else %}1{% endif %}">Name of Bank </label>
+                                                    <input class="form-control clearinput" id="cc_bank_name_{% if user.investordetail.cc_details.exists %}{{user.investordetail.cc_details.all|length|add:'1'}}{% else %}1{% endif %}" 
+                                                                                name="cc_bank_name_{% if user.investordetail.cc_details.exists %}{{user.investordetail.cc_details.all|length|add:'1'}}{% else %}1{% endif %}" 
+                                                                                type="text" placeholder="Enter Your Bank Name">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="cc_number_{% if user.investordetail.cc_details.exists %}{{user.investordetail.cc_details.all|length|add:'1'}}{% else %}1{% endif %}">Card No</label>
+                                                    <div style="display: flex;">
+                                                        <input class="form-control"  value="**** **** ****" readonly >
+                                                        <input class="form-control clearinput" id="cc_number_{% if user.investordetail.cc_details.exists %}{{user.investordetail.cc_details.all|length|add:'1'}}{% else %}1{% endif %}" 
+                                                                                    name="cc_number_{% if user.investordetail.cc_details.exists %}{{user.investordetail.cc_details.all|length|add:'1'}}{% else %}1{% endif %}" 
+                                                                                    type="number" placeholder="last 4 digit" onkeypress="if (this.value.length > 3) return false;">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="cc_type_{% if user.investordetail.cc_details.exists %}{{user.investordetail.cc_details.all|length|add:'1'}}{% else %}1{% endif %}">Card Type </label>
+                                                    <select class="form-select ignore clearinput" id="cc_type_{% if user.investordetail.cc_details.exists %}{{user.investordetail.cc_details.all|length|add:'1'}}{% else %}1{% endif %}" name="cc_type_{% if user.investordetail.cc_details.exists %}{{user.investordetail.cc_details.all|length|add:'1'}}{% else %}1{% endif %}" required>
+                                                        <option selected>Select</option>
+                                                        <option>Master Card</option>
+                                                        <option>VISA</option>
+                                                        <option>Amex</option>
+                                                        <option>Other</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="cc_limit_{% if user.investordetail.cc_details.exists %}{{user.investordetail.cc_details.all|length|add:'1'}}{% else %}1{% endif %}">Limit</label>
+                                                    <input class="form-control clearinput" id="cc_limit_{% if user.investordetail.cc_details.exists %}{{user.investordetail.cc_details.all|length|add:'1'}}{% else %}1{% endif %}" 
+                                                                                name="cc_limit_{% if user.investordetail.cc_details.exists %}{{user.investordetail.cc_details.all|length|add:'1'}}{% else %}1{% endif %}"  
+                                                                                type="number" placeholder="Enter Your Limit">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">                                            
+                                                <button type="button" id="add_cc_detail_form" class="btn btn-warning mt-5">Add</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                                                                                  
+                        </div>
+                        <!-- already saved form (Can be edited) (added on 13.04.23)  -->
+                        {% if user.investordetail.cc_details.exists %}
+                        <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                {% for i in user.investordetail.cc_details.all %}
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button"
+                                        style="background-color: white; border-color: #ffffff;"
+                                        data-bs-toggle="collapse" data-bs-target="#cc_details_{{forloop.counter}}" aria-expanded="true"
+                                        aria-controls="cc_details_{{forloop.counter}}">
+                                        <h5>{{i.cc_bank_name}} - {{i.cc_type}} </h5>
+                                    </button>
+                                </h2>
+                                <div id="cc_details_{{forloop.counter}}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <div class="row">
+                                            <div class="col align-self-center">
+                                                <b>
+                                                    Set as Primary &nbsp;
+                                                    <input class="form-check-input other-radio" type="radio" value="{{i.set_as_primary}}" {% if i.set_as_primary == True %} checked {% endif %} onchange="setPrimaryRadio(this)" name="cc_details_radio_{{forloop.counter}}">  
+                                                </b>
+                                            <input type="hidden" name="cc_id_{{forloop.counter}}" value="{{i.id}}">
+                                            </div>
+                                            <!-- Delete Button -->
+                                            <div class="col">
+                                                <form method="POST" action="{% url 'delete_credit_card' %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="cc_id" value="{{ i.id }}">
+                                                    <button class="btn btn-danger" type="submit" style="float:Right"; onclick="return confirm('Are you sure you want to delete this credit card?')"><span class="material-symbols-outlined">delete</span></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row mt-2">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label for="cc_bank_name_1">Name of Bank </label>
+                                                    <input class="form-control" id="cc_bank_name_{{forloop.counter}}" name="cc_bank_name_{{forloop.counter}}"  
+                                                    value="{{i.cc_bank_name}}"0  type="text" placeholder="Enter Your Bank Name">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="cc_number_1">Card No</label>
+                                                    <div style="display: flex;">
+                                                        <input class="form-control"  value="**** **** ****" readonly >
+                                                        <input class="form-control" id="cc_number_{{forloop.counter}}" name="cc_number_{{forloop.counter}}" 
+                                                        value="{{i.cc_number}}" type="text" maxlength="4" placeholder="last 4 digit">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label for="cc_type_{{forloop.counter}}">CC Type </label>
+                                                    <select class="form-select ignore" id="cc_type_{{forloop.counter}}" name="cc_type_{{forloop.counter}}" required>
+                                                        <option selected>Select</option>
+                                                        <option value="Master Card" {% if i.cc_type == 'Master Card' %}selected{% endif %}>Master Card</option>
+                                                        <option value="VISA" {% if i.cc_type == 'VISA' %}selected{% endif %}>VISA</option>
+                                                        <option value="Amex" {% if i.cc_type == 'Amex' %}selected{% endif %}>Amex</option>
+                                                        <option value="Other" {% if i.cc_type == 'Other' %}selected{% endif %}>Other</option>
+                                                    </select>
+                                                </div>  
+                                                <div class="col-md-2">
+                                                    <label for="cc_limit_1">Limit</label>
+                                                    <input class="form-control" id="cc_limit_{{forloop.counter}}" name="cc_limit_{{forloop.counter}}"  
+                                                    value="{{i.cc_limit}}"  type="number" placeholder="Enter Your Limit">
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                {% endfor %}                                                        
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function setPrimaryRadio(input) {
+    if (input.checked) {
+        input.value = 'True';
+        var inputs = document.getElementsByClassName('other-radio');
+        for (var i =0; i < inputs.length; i++) {
+            if (inputs[i] !== input) {
+                inputs[i].checked = false;
+                inputs[i].value = 'False';
+            }
+        }
+    } else {
+        input.value = 'False';
+    }
+}
+</script>
+
+
+
+
+
+

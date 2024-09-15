@@ -1,0 +1,74 @@
+{% extends 'partials/base.html' %}
+{% block title %} Profile {% endblock %}
+{% load static %}
+{% load index %}
+{% block content %}
+
+
+<style>
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+.card-title {
+  font-weight: 600;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.card-text {
+  font-size: 16px;
+}
+.form-check-input{
+  width: 1.5em; 
+  height: 1.5em;
+}
+
+</style>
+<div class="container mt-5">   
+    <div class="column">        
+        <div class="card text-center py-4">
+          <table class="table">
+            <h5>Profile's</h5>
+            <thead>
+                <tr>
+                    <th scope="col">Username</th>
+                    <th scope="col">Relation</th>
+                    <th scope="col">Requested Date</th>
+                </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td>{{user.username}}</td>
+                <td>SELF</td>
+                <td> - </td>
+                <td>
+                  <button  class="btn btn-warning" onclick="location.href = '/investor/investor_details/'" type="button"><span class="material-symbols-outlined">Edit</span></button>
+                  <!-- <button  class="btn btn-danger" onclick="alert('Work in progress!')"  type="button"><span class="material-symbols-outlined">Delete</span></button>           -->
+                </td>
+              </tr>
+                {% for i in request.user.investor_merge.all %}
+                    {% if i.status == 'ACCEPTED'%}
+                    <tr>                          
+                        <td>{{i.member.username}}</td>
+                        <td>{{i.relation}}</td>
+                        <td>{{i.date}}</td>                       
+                        <td>
+                          <button  class="btn btn-warning" onclick="redirectProfile('{{i.id}}')" type="button"><span class="material-symbols-outlined">Edit</span></button>
+                          <!-- <button  class="btn btn-danger" onclick="alert('Work in progress!')"  type="button"><span class="material-symbols-outlined">Delete</span></button>           -->
+                        </td>
+                    </tr>                                         
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+            
+    </div>
+</div>
+<script src="{% static 'investor/investor.js' %}"></script>
+{% endblock %}
+
+

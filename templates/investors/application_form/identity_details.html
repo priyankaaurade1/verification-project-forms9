@@ -1,0 +1,192 @@
+{% load index %}
+{% load tz %}
+{% get_current_timezone as TIME_ZONE %}
+<form {% if requestDetails.is_active == False %} inert {% endif %}  id = "identity_form">
+<div class="multisteps-form__panel shadow p-4 rounded bg-white js-active" data-animation="scaleIn">
+  <div style="display: flex;flex-wrap: wrap;flex-direction: row;justify-content: space-between;">
+    <h3 class="multisteps-form__title">Identity Details</h3>
+    <button type="button" onclick="autofill(event,'identityDetailsAPI', 'identity_form')" id="load_identity_details" data-toggle="tooltip" data-placement="top" title="Load Data From Prev. Saved From ?" ><i class="fa fa-refresh" aria-hidden="true"></i> </button>
+  </div>
+  <div class="multisteps-form__content">
+    
+    <div class="form-row mt-4">
+      {% if 'applicant_first_name' in investorIdentityDetailsFields %}
+      <label class="col-12 col-sm-3">Applicant Name : </label>
+      <div class="col-12 col-sm-3">
+        <input class="multisteps-form__input form-control" type="text" placeholder="First Name" name='applicant_first_name' id="applicant_first_name"
+        value="{% if investorIdentityDetails.applicant_first_name %}{{investorIdentityDetails.applicant_first_name}}{% else %}{{user.investordetail.first_name}}{% endif %}" />        
+      </div>
+      {% endif %}
+      {% if 'applicant_middle_name' in investorIdentityDetailsFields %}
+      <div class="col-12 col-sm-3">
+        <input class="multisteps-form__input form-control"   type="text" placeholder="Middle Name" name='applicant_middle_name' 
+        value="{% if investorIdentityDetails.applicant_middle_name %}{{investorIdentityDetails.applicant_middle_name}}{% else %}{{user.investordetail.middle_name}}{% endif %}"  />        
+      </div>
+      {% endif %}
+      {% if 'applicant_last_name' in investorIdentityDetailsFields %}
+      <div class="col-12 col-sm-3 ">
+        <input class="multisteps-form__input form-control"   type="text" placeholder="Last Name" name='applicant_last_name' 
+        value="{% if investorIdentityDetails.applicant_last_name %}{{investorIdentityDetails.applicant_last_name}}{% else %}{{user.investordetail.last_name}}{% endif %}" />        
+      </div>
+      {% endif %}
+    </div>
+    {% if 'maiden_name' in investorIdentityDetailsFields %}
+    <div class="form-row mt-4">
+      <label class="col-12 col-sm-3">Maiden Name : </label>
+      <div class="col-12 col-sm-9">
+        <input class="multisteps-form__input form-control"  onblur="fieldValidator(this, document.getElementById('applicant_maiden_name_error'))"  type="text" placeholder="For married women only" name='maiden_name'
+        value="{% if investorIdentityDetails.maiden_name %}{{investorIdentityDetails.maiden_name}}{% endif %}" />        
+      </div>
+    </div>
+    {% endif %}
+
+    
+    <div class="form-row mt-4">
+    {% if 'father_first_name' in investorIdentityDetailsFields %}
+      <label class="col-12 col-sm-3">Father's Name : </label>
+      <div class="col-12 col-sm-3">
+        <input class="multisteps-form__input form-control" type="text" placeholder="First Name" name='father_first_name'
+          value="{% if investorIdentityDetails.father_first_name %}{{investorIdentityDetails.father_first_name}}{% else %}{{user.investordetail.father_first_name}}{% endif %}" />
+      </div>
+      {% endif %}
+      {% if 'father_middle_name' in investorIdentityDetailsFields %}
+      <div class="col-12 col-sm-3 ">
+        <input class="multisteps-form__input form-control" type="text" placeholder="Middle Name" name='father_middle_name'
+          value="{% if investorIdentityDetails.father_middle_name %}{{investorIdentityDetails.father_middle_name}}{% else %}{{user.investordetail.father_middle_name}}{% endif %}" />
+      </div>
+      {% endif %}
+      {% if 'father_last_name' in investorIdentityDetailsFields %}
+      <div class="col-12 col-sm-3 ">
+        <input class="multisteps-form__input form-control" type="text" placeholder="Last Name" name='father_last_name'
+          value="{% if investorIdentityDetails.father_last_name %}{{investorIdentityDetails.father_last_name}}{% else %}{{user.investordetail.father_last_name}}{% endif %}" />
+      </div>
+    </div>
+    {% endif %}  
+
+    <div class="form-row mt-4">
+     {% if 'mother_first_name' in investorIdentityDetailsFields %}
+      <label class="col-12 col-sm-3">Mother Name : </label>
+        <div class="col-12 col-sm-3 ">
+        <input class="multisteps-form__input form-control" type="text" placeholder="" name='mother_first_name'
+           value="{% if investorIdentityDetails.mother_first_name %}{{investorIdentityDetails.mother_first_name}}{% else %}{{user.investordetail.mother_first_name}}{% endif %}" />
+        </div>
+     {% endif %}
+     {% if 'mother_middle_name' in investorIdentityDetailsFields %}
+        <div class="col-12 col-sm-3 ">
+        <input class="multisteps-form__input form-control" type="text" placeholder="" name='mother_middle_name'
+        value="{% if investorIdentityDetails.mother_middle_name %}{{investorIdentityDetails.mother_middle_name}}{% else %}{{user.investordetail.mother_middle_name}}{% endif %}" />
+        </div>
+      {% endif %}
+      {% if 'mother_last_name' in investorIdentityDetailsFields %}
+        <div class="col-12 col-sm-3 ">
+        <input class="multisteps-form__input form-control" type="text" placeholder="" name='mother_last_name'
+        value="{% if investorIdentityDetails.mother_last_name %}{{investorIdentityDetails.mother_last_name}}{% else %}{{user.investordetail.mother_last_name}}{% endif %}" />
+        </div>
+     </div>
+    {% endif %}
+    <div class="form-row mt-4">
+      {% if 'spouse_first_name' in investorIdentityDetailsFields %}
+       <label class="col-12 col-sm-3">Spouse Name : </label>
+         <div class="col-12 col-sm-3 ">
+         <input class="multisteps-form__input form-control" type="text" placeholder="" name='spouse_first_name'
+            value="{% if investorIdentityDetails.spouse_first_name %}{{investorIdentityDetails.spouse_first_name}}{% else %}{{user.investordetail.spouse_first_name}}{% endif %}" />
+         </div>
+      {% endif %}
+      {% if 'spouse_middle_name' in investorIdentityDetailsFields %}
+         <div class="col-12 col-sm-3 ">
+         <input class="multisteps-form__input form-control" type="text" placeholder="" name='spouse_middle_name'
+         value="{% if investorIdentityDetails.spouse_middle_name %}{{investorIdentityDetails.spouse_middle_name}}{% else %}{{user.investordetail.spouse_middle_name}}{% endif %}" />
+         </div>
+       {% endif %}
+       {% if 'spouse_last_name' in investorIdentityDetailsFields %}
+         <div class="col-12 col-sm-3 ">
+         <input class="multisteps-form__input form-control" type="text" placeholder="" name='spouse_last_name'
+         value="{% if investorIdentityDetails.spouse_last_name %}{{investorIdentityDetails.spouse_last_name}}{% else %}{{user.investordetail.spouse_last_name}}{% endif %}" />
+         </div>
+      </div>
+     {% endif %}
+
+    <div class="form-row mt-4"> 
+      {% if 'gender' in investorIdentityDetailsFields %}
+        <label class="col-12 col-sm-3">Gender : </label>
+        <select class="form-select col-12 col-sm-3 ignore" id="gender" name="gender" required>
+          <option selected>Select</option>
+          <option value="MALE" {% if user.investordetail.gender == 'MALE' %}selected{% endif %}>MALE</option>
+          <option value="FEMALE" {% if user.investordetail.gender == 'FEMALE' %}selected{% endif %}>FEMALE</option>
+          <option value="TRANSGENDER" {% if user.investordetail.gender == 'TRANSGENDER' %}selected{% endif %}>TRANSGENDER</option>
+          <option value="OTHER" {% if user.investordetail.gender == 'OTHER' %}selected{% endif %}>OTHER</option>
+        </select>
+      {% endif %}
+            
+      {% if 'date_of_birth' in investorIdentityDetailsFields %}
+      <label class="col-12 col-sm-3" for="dob">Date of Birth : </label>
+      <div class="col-12 col-sm-3">
+        <input class="multisteps-form__input form-control" name="dob" type="date" 
+        value="{% if investorIdentityDetails.date_of_birth %}{{ investorIdentityDetails.date_of_birth|date:'Y-m-d' }}{% else %}{{user.investordetail.dob|date:'Y-m-d'}}{% endif %}" />
+    
+      </div>
+      {% endif %}
+    </div>
+    
+    <div class="form-row mt-4"> 
+      {% if 'martial_status' in investorIdentityDetailsFields %}
+      <label class="col-12 col-sm-3" for="martial_status" name="martial_status" id="martial_status">Martial Status : </label>
+      <select class="form-select col-12 col-sm-3 ignore" name="martial_status" id="martial_status">
+        <option  selected>Select</option>
+        <option value="SINGLE"{% if user.investordetail.martial_status == 'SINGLE'%}selected{% endif %}>SINGLE</option>
+        <option value="MARRIED" {% if user.investordetail.martial_status == 'MARRIED'%}selected{% endif %}>MARRIED</option>
+        <option value="WIDOWED"{% if user.investordetail.martial_status == 'WIDOWED'%}selected{% endif %}>WIDOWED</option>
+        <option value="DIVORCED"{% if user.investordetail.martial_status == 'DIVORCED'%}selected{% endif %}>DIVORCED</option>
+        <option value="SEPARATED"{% if user.investordetail.martial_status == 'SEPARATED'%}selected{% endif %}>SEPARATED</option>
+        <option value="OTHER"{% if user.investordetail.martial_status == 'OTHER'%}selected{% endif %}>OTHER</option>
+      </select>
+      {% endif %}
+    
+      {% if 'nationality' in investorIdentityDetailsFields %}
+      <label class="col-12 col-sm-3">Nationality : </label>
+      <select class="form-select col-12 col-sm-3 ignore" id="nationality" name="nationality" onchange='fetchDocumentManager()' required>
+        <option selected>Select</option>
+        <option value="INDIAN" {% if user.investordetail.nationality == 'INDIAN' %}selected{% endif %}>INDIAN</option>
+        <option value="NRI" {% if user.investordetail.nationality == 'NRI' %}selected{% endif %}>NRI</option>
+        <option value="FOREIGNER" {% if user.investordetail.nationality == 'FOREIGNER' %}selected{% endif %}>FOREIGNER</option>
+      </select>
+      {% endif %}
+    </div>
+
+    <div class="form-row mt-4">
+      {% if 'resident_status' in investorIdentityDetailsFields %}
+      <label class="col-12 col-sm-3" >Status : </label>
+      <div class="col-12 col-sm-3">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" name="resident_status" id="inlineCheckbox2" value="Resident Individual"
+          {% if investorIdentityDetails.resident_status == 'Resident Individual' %} checked {% endif %}>
+          <label class="form-check-label" for="resident">Resident Individual</label>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="form-row mt-4">
+      {% if 'pancard_self_no' in investorIdentityDetailsFields %}
+      <label class="col-12 col-sm-3" for="pan">Pan Card : </label>
+      <div class="col-12 col-sm-3">
+        <input class="multisteps-form__input form-control" name="pancard_self_no" type="text" placeholder="Enter Pan Card" id="pancard_self_no"
+        value="{% if investorIdentityDetails.pancard_self_no %}{{investorIdentityDetails.pancard_self_no}}{% else %}{{user.documentupload.pancard_self_no}}{% endif %}" />
+      </div>
+    {% endif %}
+      
+    {% if 'aadhar_self_no' in investorIdentityDetailsFields %}
+      <label class="col-12 col-sm-3" for="aadhar">Aadhaar Card : </label>
+      <div class="col-12 col-sm-3">
+        <input class="multisteps-form__input form-control" name="aadhar_self_no" type="text" placeholder="Enter Aadhaar" id="aadhar_self_no"
+        value="{% if investorIdentityDetails.aadhar_self_no %}{{investorIdentityDetails.aadhar_self_no}}{% else %}{{user.documentupload.aadhar_self_no}}{% endif %}" />
+      </div>
+    {% endif %}
+    </div>
+
+    <div class="button-row d-flex mt-4">
+      <button class="btn btn-primary ml-auto js-btn-next" type="button"  onclick="formSubmit(event, 'identity_form', 'investorIdentityDetailsSave')" id='identity_form_next' title="Next">Next</button>
+    </div>
+  </div>
+</div>
+</form>

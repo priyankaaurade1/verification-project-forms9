@@ -1,0 +1,103 @@
+<div class="accordion mt-3" id="document_upload_accordionPanelsStayOpen">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingOne">                        
+            <button class="accordion-button " style="background-color: white; border-color: #ffffff;" type="button" data-bs-toggle="collapse" data-bs-target="#bdocument_upload-collapse" aria-expanded="true" aria-controls="bdocument_upload-collapse">                
+                <h3 style="font-family: monospace, Geneva, Tahoma, sans-serif;">Uploaded Documents</h3>                             
+            </button>
+        </h2>              
+        <div id="bdocument_upload-collapse" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+            <div class="accordion-body">
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body" >
+                        <button type="button" class="btn btn-primary"  style="background: #16192C;border: none;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            View Uploaded Images
+                        </button>
+                        <div class="row mt-2" id="nationality ">
+                            <div class="col-md-3 aadhar_card_self" id="uploadSection1">
+                                <label for="aadhar_card_self">Aadhar Card Self</label>
+                                <input class="form-control"  type="file" name="aadhar_card_self"  multiple>                        
+                                <p style="font-size:x-small;color:#d9103e;">{% if aadhar_sef_date.date_updated %} Last uploaded on: {{ aadhar_sef_date.date_updated }} {% else %}<p style="font-size:x-small;color:#039729;;"> Not Uploaded {% endif %}</p>
+                            </div>
+                            <div class="col-md-3 aadhar_card_father" >
+                                <label for="aadhar_card_father">Aadhar Card Father</label>
+                                <input class="form-control"  type="file" name="aadhar_card_father"  multiple>                        
+                                <p style="font-size:x-small;color:#d9103e;">{% if aadhar_father_date.date_updated %} Last uploaded on: {{ aadhar_father_date.date_updated }} {% else %}<p style="font-size:x-small;color:#039729;;"> Not Uploaded {% endif %}</p>
+                            </div>
+                            <div class="col-md-3 aadhar_card_mother" >
+                                <label for="aadhar_card_mother">Aadhar Card Mother</label>
+                                <input class="form-control"  type="file" name="aadhar_card_mother"  multiple>                        
+                                <p style="font-size:x-small;color:#d9103e;">{% if aadhar_mother_date.date_updated %} Last uploaded on: {{ aadhar_mother_date.date_updated }} {% else %}<p style="font-size:x-small;color:#039729;;"> Not Uploaded {% endif %}</p>
+                            </div>
+                            <div class="col-md-3 aadhar_card_spouse" >
+                                <label for="aadhar_card_spouse">Aadhar Card Spouse</label>
+                                <input class="form-control"  type="file" name="aadhar_card_spouse"  multiple>                        
+                                <p style="font-size:x-small;color:#d9103e;">{% if aadhar_spouse_date.date_updated %} Last uploaded on: {{ aadhar_spouse_date.date_updated }} {% else %}<p style="font-size:x-small;color:#039729;;"> Not Uploaded {% endif %}</p>
+                            </div>
+                            <div class="col-md-3 pan_card_self" >
+                                <label for="pan_card_self">Pan Card Self</label>
+                                <input class="form-control" type="file" name="pan_card_self" multiple>
+                                <p style="font-size: x-small; color: #d9103e;">{% if pan_sef_date.date_updated %} Last uploaded on: {{ pan_sef_date.date_updated }} {% else %}<p style="font-size: x-small; color: #039729;"> Not Uploaded {% endif %}</p>
+                            </div>
+                            <div class="col-md-3 pan_card_father" >
+                                <label for="pan_card_father">Pan Card Father</label>
+                                <input class="form-control" type="file"  name="pan_card_father"  multiple>
+                                <p style="font-size:x-small;color:#d9103e;">{% if pan_father_date.date_updated %} Last uploaded on: {{ pan_father_date.date_updated }} {% else %}<p style="font-size:x-small;color:#039729;;"> Not Uploaded {% endif %}</p>
+                            </div>
+                            <div class="col-md-3 pan_card_mother" >
+                                <label for="pan_card_mother">Pan Card Mother</label>
+                                <input class="form-control" type="file"  name="pan_card_mother"  multiple>
+                                <p style="font-size:x-small;color:#d9103e;">{% if pan_mother_date.date_updated %} Last uploaded on: {{ pan_mother_date.date_updated }} {% else %}<p style="font-size:x-small;color:#039729;;"> Not Uploaded {% endif %}</p>
+                            </div>
+                            <div class="col-md-3 pan_card_spouse" >
+                                <label for="pan_card_spouse">Pan Card Spouse</label>
+                                <input class="form-control" type="file"  name="pan_card_spouse"  multiple>
+                                <p style="font-size:x-small;color:#d9103e;">{% if pan_spouse_date.date_updated %} Last uploaded on: {{ pan_spouse_date.date_updated }} {% else %}<p style="font-size:x-small;color:#039729;;"> Not Uploaded {% endif %}</p>
+                            </div>
+                            <div class="col-md-3 passport" >
+                                <label for="passport">Passport </label>
+                                <input class="form-control" type="file"  name="passport"  multiple>                                
+                                <p style="font-size:x-small;color:#d9103e;">{% if passport_date.date_updated%}Last uploaded on: {{ passport_date.date_updated }}{% else %}<p style="font-size:x-small;color:#039729;;"> Not Uploaded {% endif %}</p>                                
+                            </div>
+                            <div class="col-md-3 oversea_tax_id"  >
+                                <label for="oversea_tax_id">Oversea Tax </label>
+                                <input class="form-control" type="file"  name="oversea_tax_id"  multiple>                                
+                                <p style="font-size:x-small;color:#d9103e;">{% if overtax_date.date_updated%}Last uploaded on: {{ overtax_date.date_updated }}{% else %}<p style="font-size:x-small;color:#039729;;"> Not Uploaded {% endif %}</p>                                
+                            </div>
+                            <div class="col-md-3 visa" >
+                                <label for="visa">Visa </label>
+                                <input class="form-control" type="file"  name="visa"  multiple>                                
+                                <p style="font-size:x-small;color:#d9103e;">{% if visa_date.date_updated%}Last uploaded on: {{ visa_date.date_updated }}{% else %}<p style="font-size:x-small;color:#039729;;"> Not Uploaded {% endif %}</p>                               
+                            </div> 
+                            <div class="col-md-3 bill" >
+                                <label for="bill">Utility Bill</label>
+                                <input class="form-control" type="file" name="bill"  multiple>                                
+                                <p style="font-size:x-small;color:#d9103e;">{% if utility_date.date_updated%}Last uploaded on: {{ utility_date.date_updated }}{% else %}<p style="font-size:x-small;color:#039729;;"> Not Uploaded {% endif %}</p>                                
+                            </div> 
+                            <div class="col-md-3 bank_passbook" >
+                                <label for="bank_passbook">Bank Passbook </label>
+                                <input class="form-control" type="file" id="bank_passbook" name="bank_passbook"  multiple>                                
+                                <p style="font-size:x-small;color:#d9103e;">{% if passbook_date.date_updated%}Last uploaded on: {{ passbook_date.date_updated }}{% else %}<p style="font-size:x-small;color:#039729;;"> Not Uploaded {% endif %}</p>                            
+                            </div>   
+                            <div class="col-md-3 bank_statement"  >
+                                <label for="bank_statement">Bank Statement </label>
+                                <input class="form-control" type="file" id="bank_statement" name="bank_statement"  multiple>                                
+                                <p style="font-size:x-small;color:#d9103e;">{% if statement_date.date_updated%}Last uploaded on: {{ statement_date.date_updated }}{% else %}<p style="font-size:x-small;color:#039729;;"> Not Uploaded {% endif %}</p>                               
+                            </div> 
+                            <div class="col-md-3 bank_cheque" >
+                                <label for="bank_cheque">Bank Cheque </label>
+                                <input class="form-control" type="file" id="bank_cheque" name="bank_cheque"  multiple>                                
+                                <p style="font-size:x-small;color:#d9103e;">{% if cheque_date.date_updated%}Last uploaded on: {{ cheque_date.date_updated }}{% else %}<p style="font-size:x-small;color:#039729;;"> Not Uploaded {% endif %}</p>                                
+                            </div>  
+                            <div class="col-md-3 cc_sign" >
+                                <label for="cc_sign">Credit Card Sign</label>
+                                <input class="form-control" type="file" id="cc_sign" name="cc_sign"  multiple>                                
+                                <p style="font-size:x-small;color:#d9103e;">{% if cc_date.date_updated%}Last uploaded on: {{ cc_date.date_updated }}{% else %}<p style="font-size:x-small;color:#039729;;"> Not Uploaded {% endif %}</p>                                
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            

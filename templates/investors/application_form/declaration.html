@@ -1,0 +1,64 @@
+{% load index %}
+<form {% if requestDetails.is_active == False %} inert {% endif %}  id = "declaration_form">
+<div class="multisteps-form__panel shadow p-4 rounded bg-white" data-bs-animation="scaleIn">
+  <div style="display: flex;flex-wrap: wrap;flex-direction: row;justify-content: space-between;">
+  <h3 class="multisteps-form__title">Declaration</h3>
+  <button type="button"  onclick="autofill(event,'declarationAPI', 'declaration_form')" id="load_declaration_details" data-bs-toggle="tooltip" data-bs-placement="top" title="Load Data From Prev. Saved From ?" ><i class="fa fa-refresh" aria-hidden="true"></i> </button>
+  </div>
+  <div class="multisteps-form__content">
+    <div class="form-row mt-4">
+      <label class="col-12 col-sm-12">I/We hereby declare that the information provided above is true and accurate to the best of our knowledge and belief, and I/We agree to immediately notify you of any changes.In the event that any of the aforementioned 
+        facts are discovered to be incorrect, misleading, or misrepresented, I am/we are aware that I/we may be held accountable for it.
+      </label>
+    </div>
+  
+    <div class="form-row mt-4"> 
+      {% if 'place' in investorDeclarationFields %}
+      <label class="col-12 col-sm-2">Place : </label>
+      <div class="col-12 col-sm-2">
+        <input class="multisteps-form__input form-control" name="place"  id="place" type="text" placeholder="Place" 
+        value="{% if investorDeclaration.place %}{{investorDeclaration.place}}{% endif %}"/>
+      </div>
+      {% endif %}
+
+      {% if 'date' in investorDeclarationFields %}
+      <label class="col-12 col-sm-2">Date : </label>
+      <div class="col-12 col-sm-2">
+        <input class="multisteps-form__input form-control" name="date" id="date" type="date" 
+        value="{% if investorDeclaration.date %}{{ investorDeclaration.date|date:'Y-m-d' }}{% endif %}" />
+      </div>
+      {% endif %}
+
+    </div>
+
+   
+
+    <div class="button-row d-flex mt-4">
+      <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
+      <button type="button" class="btn btn-primary ml-auto" data-bs-toggle="modal" data-bs-target="#markascomplete">Mark As Completed</button>
+    </div>
+  </div>
+</div>
+
+<!-- added by sarvesh on 24 - modal to change form status */-->
+<div class="modal fade" id="markascomplete" tabindex="-1" role="dialog" aria-labelledby="markascompleteTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Mark As Completed</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4>After proceed form will be send to respective depository for verification.</h4>
+        <h5 style="color: red;">Form cannot be edited again once clicked on proceed !!!</h5>        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" onclick="formSubmit(event, 'declaration_form', 'investorDeclarationDetailsSave');" class="btn btn-primary">Proceed</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>

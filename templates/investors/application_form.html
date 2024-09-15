@@ -1,0 +1,93 @@
+{% extends 'partials/base.html' %}
+{% block title %} Application Form {% endblock %}
+{% load static %}
+{% load  index %}
+{% block content %}
+<link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="{% static 'investor/application_form.css' %}">
+
+
+<div class="container overflow-y-lg-auto">
+  <!--multisteps-form-->
+  <header class="header" style = "margin: 10px auto;">
+    <img src = "{% if depository.logo %} {{depository.logo.url}} {% endif %}" style="height: 100px; width: 200px; margin: 1% 15px;" alt='{{depository.depository_name}}'>
+    <h3>DEMAT ACCOUNT OPENING FORM</h3>
+  </header>
+  <div class="multisteps-form">
+    <!--progress bar-->
+    <div class="row">
+      <div class="col-12 col-lg-8 ml-auto mr-auto mb-4">
+        <div class="multisteps-form__progress">
+          <button style = "font-size: 12px;" class="multisteps-form__progress-btn js-active" type="button" title="Identity Details">Identity Details</button>
+          <button style = "font-size: 12px;" class="multisteps-form__progress-btn" type="button" title="Address">Address Details</button>
+          <!-- <button class="multisteps-form__progress-btn" type="button" title="For Office">For Office Use Only</button> -->
+          <button style = "font-size: 12px;" class="multisteps-form__progress-btn" type="button" title="Additional KYC">Additional KYC</button>
+          <button style = "font-size: 12px;" class="multisteps-form__progress-btn" type="button" title="Type of Account">Type of Account</button>
+          <button style = "font-size: 12px;" class="multisteps-form__progress-btn" type="button" title="Guardian Details">Guardian Details</button>
+          <button style = "font-size: 12px;" class="multisteps-form__progress-btn" type="button" title="Standing Instructions">Standing Instructions</button>
+          <button style = "font-size: 12px;" class="multisteps-form__progress-btn" type="button" title="SMS Alert">SMS Alert</button>
+          <button style = "font-size: 12px;" class="multisteps-form__progress-btn" type="button" title="Bank Details">Bank Details</button>
+          <button style = "font-size: 12px;" class="multisteps-form__progress-btn" type="button" title="Nominee Details">Nominee Details</button>
+          <button style = "font-size: 12px;" class="multisteps-form__progress-btn" type="button" title="Other Details">Other Details</button>
+          <button style = "font-size: 12px;" class="multisteps-form__progress-btn" type="button" title="Document Upload">Document Upload</button>
+          <button style = "font-size: 12px;" class="multisteps-form__progress-btn" type="button" title="Declaration">Declaration</button>
+
+        </div>
+      </div>
+    </div>
+    <!--form panels-->
+    <div class="row">
+      <div class="col-12 col-lg-11 m-auto">
+        <input name="request_no" type="text" id='request_no' value='{{requestDetails.requestno}}' hidden/>
+        <input name="depository" type="text" id='depository' value='{{depository.id}}' hidden/>
+        <div class="multisteps-form__form">
+
+
+      
+          <!--single form panel-->
+          {% include "investors/application_form/identity_details.html" %}
+          
+          <!--single form panel-->
+          {% include "investors/application_form/address_details.html" %}
+
+          <!--single form panel-->
+          <!-- {% include "investors/application_form/office.html" %} -->
+          
+          <!--single form panel-->
+          {% include "investors/application_form/additional_kyc.html" %}
+
+          <!--single form panel-->
+          {% include "investors/application_form/account_type.html" %}
+
+          <!--single form panel-->
+          {% include "investors/application_form/guardian_details.html" %}
+
+          <!--single form panel-->
+          {% include "investors/application_form/standing_instructions.html" %}
+
+          <!--single form panel-->
+          {% include "investors/application_form/sms_alert.html" %}
+
+          <!--single form panel-->
+          {% include "investors/application_form/bank_details.html" %}
+
+          <!--single form panel-->
+          {% include "investors/application_form/nominee_details.html" %}
+
+          <!--single form panel-->
+          {% include "investors/application_form/other_details.html" %}
+
+          <!--single form panel-->
+          {% include "investors/application_form/document_upload.html" %}
+
+          <!--single form panel-->
+          {% include "investors/application_form/declaration.html" %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{% static 'investor/application_form.js' %}" ></script>
+<script src="{% static 'investor/application_form_submit.js' %}" ></script>
+{% endblock %}

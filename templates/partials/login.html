@@ -1,0 +1,152 @@
+{% extends 'partials/base.html' %}
+{% block title %} Login {% endblock %}
+{% load static %}
+{% block login %}
+<link href="../../static/assets-auth/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link href="../../static/assets-auth/css/sb-admin-2.min.css" rel="stylesheet">
+<div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                </div>
+                                <form action="#" class="mt-4" method="POST" action="" novalidate>
+                                    {% csrf_token %}
+                                    {% for fm in form %}
+                                    <div class="form-group">
+                                         {{fm.label_tag}} {{fm}} <small class="text-warning"> {{fm.errors|striptags}}</small>
+                                    </div>
+                                   {% endfor %}
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox small">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck">
+                                            <label class="custom-control-label" for="customCheck">Remember
+                                                Me</label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" value="Login" class="btn btn-primary">Log in</button>
+                                   
+                                   
+                                    <!-- <a href="/" class="btn btn-google btn-user btn-block">
+                                        <i class="fab fa-google fa-fw"></i> Login with Google
+                                    </a>
+                                    <a href="/" class="btn btn-facebook btn-user btn-block">
+                                        <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
+                                    </a> -->
+                                    <div class="d-grid">
+                                        {% if form.non_field_errors %}
+                                        {% for error in form.non_field_errors %}
+                                        <p class="alert alert-danger my-3">{{error}}</p>
+                                        {%endfor%}
+                                        {% endif %}
+                                    </div>
+                                </form>
+                                
+                                <div class="text-center">
+                                    <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                </div>
+                                <div class="text-center">
+                                    <a class="small" href="/register">Create an Account!</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="../../static/assets-auth/vendor/jquery/jquery.min.js"></script>
+<script src="../../static/assets-auth/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="../../static/assets-auth/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../../static/assets-auth/js/sb-admin-2.min.js"></script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>User Login</title>
+
+    <!-- Custom fonts for this template-->
+   
+
+</head>
+
+<body class="bg-gradient-primary">
+
+    
+
+</body>
+
+</html>
+
+<div class="col" style="padding:0 !important;margin: 10% 25%;">
+    <div class="card shadow p-3 py-5">
+        <div style="display: flex;justify-content: space-between;">
+            <h3>User Login</h3>
+        </div>
+        <form action="#" class="mt-4" method="POST" action="" novalidate>
+            {% csrf_token %}
+            {% for fm in form %}
+            <div class="row">
+                <div class="form-group col-xs-3">
+                    {{fm.label_tag}} {{fm}} <small class="text-warning"> {{fm.errors|striptags}}</small>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div><a href="/password_reset" class="small text-right" >Lost password?</a></div>
+            </div>
+    
+            <div class="d-grid">
+                <button type="submit" value="Login" class="btn btn-primary">Sign in</button>
+            </div>
+            <div class="d-grid">
+                {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                <p class="alert alert-danger my-3">{{error}}</p>
+                {%endfor%}
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>

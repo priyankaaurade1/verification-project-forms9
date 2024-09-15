@@ -1,0 +1,137 @@
+{% load index %}
+<div class="accordion mt-3" id="documentaccordionPanelsStayOpen">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingOne">   
+                     
+            <button class="accordion-button " style="background-color: white; border-color: #ffffff;" type="button" data-bs-toggle="collapse" data-bs-target="#document-collapse" aria-expanded="true" aria-controls="document-collapse">                
+                <h3 style="font-family: monospace, Geneva, Tahoma, sans-serif;">Additional Details</h3>                             
+            </button>
+        </h2>                
+        <div id="document-collapse" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+            <div class="accordion-body" style="padding-top:0px">
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body" >
+                        
+                        <div class="mt-2" style="display: flex;justify-content: space-between;">                                                       
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                    <div class="modal-content ">
+                                        <div class="modal-body">
+                                            <div class="alert alert-primary" role="alert">
+                                                Check to set Image as Primary <input class="form-check-input other-radio" type="checkbox" checked disabled></p>
+                                            </div>
+                                            {% for variable_name, document in upload_dict.items %}
+                                            <hr>
+                                                <h4>{{ variable_name }}</h4>
+                                                <div class="row">
+                                                    {% for image in document %}
+                                                        <div class="col-md-4 mb-4">
+                                                            <input class="form-check-input other-radio" type="checkbox" name="sign_proof_checkbox" {% if image.2 == True %} checked {% endif %} onchange="imageCheckBox(this.checked,'{{image.1}}')">
+                                                            <a href="data:image/jpeg;base64,{{ image.0 }}" data-fancybox="gallery">
+                                                                <img class="img-fluid" src="data:image/jpeg;base64,{{ image.0 }}" alt="Image Gallery">                                                                
+                                                            </a>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="row "> 
+                            <!-- passport -->
+                            <div class="col-md-3 passport"  >
+                                <div class="" id="passport">
+                                    <label for="passport">Passport
+                                    {% if passport_date.date_updated %} <i class="far fa-check-circle fa-lg" style="color: #5cbd28;"></i>{% else %}<i class="fa-solid fa-xmark fa-lg" style="color: #d52020;"></i>{% endif %}
+                                    </label>
+                                    <input class="form-control"  value="{% if user.documentupload.passport_data %}{{user.documentupload.passport_data}}{% endif %}" type="text" placeholder="Enter Your Passport Number" name="passport_data">
+                                </div>                                                               
+                            </div> 
+                            <!-- oversea tax -->
+                            <div class="col-md-3 oversea_tax_id" >
+                                <div class="" id="oversea_tax_id">
+                                    <label for="oversea_tax_id" >Oversea Tax Id
+                                    {% if overtax_date.date_updated %} <i class="far fa-check-circle fa-lg" style="color: #5cbd28;"></i>{% else %}<i class="fa-solid fa-xmark fa-lg" style="color: #d52020;"></i>{% endif %}
+
+                                    </label>
+                                    <input class="form-control" value="{% if user.documentupload.oversea_tax %}{{user.documentupload.oversea_tax}}{% endif %}" type="text" placeholder="Enter Your Oversea Tax Id" name="oversea_tax">
+                                </div>                                                                 
+                            </div> 
+                            <!-- visa -->
+                            <div class="col-md-3 visa" >
+                                <div class="" id="visa">
+                                    <label for="visa" >Visa
+                                    {% if visa_date.date_updated %} <i class="far fa-check-circle fa-lg" style="color: #5cbd28;"></i>{% else %}<i class="fa-solid fa-xmark fa-lg" style="color: #d52020;"></i>{% endif %}
+
+                                    </label>
+                                    <input class="form-control" value="{% if user.documentupload.visa_no %}{{user.documentupload.visa_no}}{% endif %}" type="text" placeholder="Enter Your Visa Number" name="visa_no">
+                                </div>                                                               
+                            </div> 
+                        </div>
+                        <!-- utility bill -->
+                        <div class="mt-2 mb-5">
+                            <h3>Utility Bill/Electric/Telephone</h3>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-3">
+                                <label for="bill_date">Date</label>
+                                <input class="form-control" id="bill_date" name="bill_date" value="{{user.documentupload.bill_date|date:"Y-m-d"}}"  type="date" placeholder="Enter Your Utility Date">
+                            </div>
+                            <div class="col-md-3">
+                                <label>Select Bill:</label>
+                                <select class="form-select ignore"  id="bill_name" name="bill_name">
+                                  <option selected>Select</option>
+                                  <option value="UTILITY_BILL" {% if user.documentupload.bill_name == 'UTILITY_BILL' %}selected{% endif %}>Utility Bill</option>
+                                  <option value="ELECTRIC_BILL" {% if user.documentupload.bill_name == 'ELECTRIC_BILL' %}selected{% endif %}>Electric Bill</option>
+                                  <option value="TELEPHONE_BILL" {% if user.documentupload.bill_name == 'TELEPHONE_BILL' %}selected{% endif %}>Telephone Bill</option>
+                                  <option value="OTHER" {% if user.documentupload.bill_name == 'OTHER' %}selected{% endif %}>Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 bill-note-1" >
+                            <label for="bill_note">Note</label>
+                            <input class="form-control" name="bill_note" value="{% if user.documentupload.bill_note %}{{user.documentupload.bill_note}}{% endif %}" type="text" placeholder="Enter Your Note">
+                            </div>
+                            <div class="col-md-3" id="">
+                                <label for="">Bill Number</label>
+                                <input class="form-control" value="{% if user.documentupload.bill_number %}{{user.documentupload.bill_number}}{% endif %}" type="text" placeholder="Enter Your Bill Number" name="bill_number">
+                            </div> 
+                           
+                        </div>                                           
+
+                        <!-- Demat Account -->
+                        <hr>
+                        <div class="mt-2 mb-5">
+                            <h3>Demat Account</h3>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-3">
+                                <label for="pp_id">DP ID</label>
+                                <input class="form-control" id="pp_id" name="pp_id"  value="{% if user.documentupload.pp_id %}{{user.documentupload.pp_id}}{% endif %}"  type="text" placeholder="Enter DP ID">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="client_id">Client Id </label>
+                                <input class="form-control" id="client_id" name="client_id_1"  value="{% if user.documentupload.client_id_1 %}{{ user.documentupload.client_id_1 }}{% endif %}"  type="text" placeholder="Enter Client Id ">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="broker_name">Broker / Bank Name </label>
+                                <input class="form-control" id="broker_name" name="broker_name"  value="{% if user.documentupload.broker_name %}{{user.documentupload.broker_name}}{% endif %}"  type="text" placeholder="Enter Broker / bank Name">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      fetchDocumentManager(); // Call the function on page load
+    });
+  </script>
+  

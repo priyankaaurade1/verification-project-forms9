@@ -1,0 +1,108 @@
+{% extends 'partials/base.html' %}
+{% block title %} Depository Forms {% endblock %}
+{% load static %}
+{% load index %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+<link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+<style>
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+  margin:0;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+.card-title {
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.card-text {
+  font-size: 16px;
+}
+
+.card-img-top {
+    object-fit: contain;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  .card-img-top {
+    
+      height: 19vw;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .card-img-top {
+      
+      height: 16vw;
+      object-fit: contain;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .card-img-top {
+      height: 11vw;
+  }
+}
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 992px) {
+  .card-img-top {
+
+      height: 11vw;
+      object-fit: contain;
+  }
+}
+</style>
+<div class="container">
+<div class="card" style="align-items: center !important; margin-bottom: 1em !important;margin-top: 1em !important; margin: 1em;">
+  <div class="card-body">
+    <div class="form-group">
+      <select class="form-select ignore form-control" name="user_select" id="user_select" onchange="updateFormStatus(this.value)">
+        <option value="{{request.user.id}}">{{request.user}}</option>
+        {% for i in profiles %}
+          <option value="{{i.member.id}}">{{i.member}}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  </div>
+
+  <div class="container" style="display: flex;flex-wrap: nowrap; padding:0 !important">
+    {% for i in depository %}
+    <div class="card-deck col-md-4 mb-3">
+      <div class="card">
+        <!-- <div class="row"> -->
+          <img class="card-img-top" src="{% if i.logo %} {{i.logo.url}} {% endif %}"
+            alt='{{i.depository_name}}'>
+            <!-- style="height: 100px; width: 200px; margin: 1% 30px; -->
+        <!-- </div> -->
+        <hr class="hr" style="margin-top: 00; margin-bottom: 10px;">
+        <div class="card-body">
+          <form method="POST" enctype="multipart/form-data" action="{% url 'investor_application_form' %}">{% csrf_token %}
+            <input type="text" name="profile_id" class="input_profile_id" value="{{ user.id }}" hidden>
+            <input type="text" name="depository_id" value="{{i.id}}" hidden>
+            <button class="btn btn-primary depository"   id="depository_{{i.id}}" type="submit"></button>
+            <!-- <a  onclick="redirectApplicationForm(this.id)" id="depository_{{i.id}}" class="btn btn-primary depository">{% if i.id|checkFormStatus:request.user.id %}Continue{% else %} Begin {% endif %}</a> -->
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<script src="{% static 'investor/investor.js' %}" ></script>
+
+{% endblock %}
+

@@ -1,0 +1,341 @@
+{% load static %}
+
+<style>
+    
+    .fa-lg{
+      font-size : 15px;
+    }
+    h4{
+      margin-top: 5px !important;
+      text-align: left;
+      font-size:18PX;
+    }
+    label{
+      font-size: 12px;
+    }
+    p{
+      margin-top:6px
+    }
+    .hide {
+        display: none;
+    }
+    .show {
+        display: block;
+    }
+    </style>
+</style>
+<div class="accordion mt-3" id="profileaccordionPanelsStayOpen">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingOne">                     
+            <button class="accordion-button " style="background-color: white; border-color: #ffffff;" type="button" data-bs-toggle="collapse" data-bs-target="#profile-collapse" aria-expanded="true" aria-controls="profile-collapse">                
+                <h3 style="font-family: monospace, Geneva, Tahoma, sans-serif;">Profile</h3>                             
+            </button>
+        </h2>                
+        <div id="profile-collapse" class="accordion-collapse collapse  show" aria-labelledby="panelsStayOpen-headingOne">
+            <div class="accordion-body" style="padding: 0 1.25rem;">
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body" style="padding: 0 1.25rem;">
+                        <div class="row mt-2">
+                            <div class="col-md-3 mb-2"><label>First Name </label>
+                                <input class="form-control" id="fname" name="first_name"  type="text" value="{% if user.investordetail.first_name %}{{user.investordetail.first_name}}{% endif %}" placeholder="First Name">                      
+                            </div>
+                            <div class="col-md-3 mb-2"><label>Middle Name</label>
+                                <input class="form-control" id="category" name="middle_name" value="{% if user.investordetail.middle_name %}{{user.investordetail.middle_name}}{% endif %}"  type="text" placeholder="Middle Name">
+                            </div>
+                            <div class="col-md-3 mb-2"><label>Last Name</label>
+                                <input class="form-control" id="category" name="last_name" value="{% if user.investordetail.last_name %}{{user.investordetail.last_name}}{% endif %}"  type="text" placeholder="Last Name">
+                            </div>
+                            <div class="col-md-3 mb-2"></div>
+                         
+                            <div class="col-md-3 mb-2">
+                                <label>Gender:</label>
+                                <select class="form-select ignore" id="gender" name="gender" required>
+                                    <option selected>Select</option>
+                                    <option value="MALE" {% if user.investordetail.gender == 'MALE' %}selected{% endif %}>MALE</option>
+                                    <option value="FEMALE" {% if user.investordetail.gender == 'FEMALE' %}selected{% endif %}>FEMALE</option>
+                                    <option value="TRANSGENDER" {% if user.investordetail.gender == 'TRANSGENDER' %}selected{% endif %}>TRANSGENDER</option>
+                                    <option value="OTHER" {% if user.investordetail.gender == 'OTHER' %}selected{% endif %}>OTHER</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-2"><label>DOB</label>
+                                <input id='dob' type="date" name="dob" value="{{user.investordetail.dob|date:"Y-m-d"}}" class="form-control input-group date">
+                            </div> 
+                            <div class="col-md-3 mb-2" >
+                                <label>Martial Status</label>
+                                <select class="form-select ignore" name="martial_status" id="martial_status" required onchange="fetchMaritalStatus()">
+                                    <option selected>Select</option>
+                                    <option value="SINGLE" {% if user.investordetail.martial_status == 'SINGLE' %}selected{% endif %}>SINGLE</option>
+                                    <option value="MARRIED"{% if user.investordetail.martial_status == 'MARRIED' %}selected{% endif %}>MARRIED</option>
+                                    <option value="DIVORCED"{% if user.investordetail.martial_status == 'DIVORCED' %}selected{% endif %}>DIVORCED</option>
+                                    <option value="WIDOWED"{% if user.investordetail.martial_status == 'WIDOWED' %}selected{% endif %}>WIDOWED</option>
+                                    <option value="SEPARATED"{% if user.investordetail.martial_status == 'SEPARATED' %}selected{% endif %}>SEPARATED</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <label>Nationality:</label>
+                                <select class="form-select ignore" id="nationality" name="nationality" required onchange="fetchDocumentManager()">
+                                    <option selected>Select</option>
+                                    <option value="INDIAN" {% if user.investordetail.nationality == 'INDIAN' %}selected{% endif %}>INDIAN</option>
+                                    <option value="NRI" {% if user.investordetail.nationality == 'NRI' %}selected{% endif %}>NRI</option>
+                                    <option value="FOREIGNER" {% if user.investordetail.nationality == 'FOREIGNER' %}selected{% endif %}>FOREIGNER</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-2 aadhar_card_self">
+                                <div id="aadhar_card_self">
+                                    <label for="aadhar_card_self" >AADHAAR</label> {% if aadhar_sef_date.date_updated %}<span class="material-symbols-outlined" style="color: #5cbd28;" data-toggle="tooltip" data-placement="top" title="Already uploaded">check_circle</span></span>{% else %}<span class="material-symbols-outlined" style="color: #d52020;" data-toggle="tooltip" data-placement="top" title="Not uploaded Yet!">cancel</span></span>{% endif %}
+                                    <a href="#" id="file-link1" class="file btn" style="padding: 0rem!important; color: #286ca8; float: right" data-toggle="tooltip" data-placement="top" title="Click Here To Upload">
+                                        &nbsp;&nbsp;<i class="fa-solid fa-file-arrow-up fa-lg" title="Click Here To Upload"></i>
+                                        <p style="font-size: 12px; float: right;">&nbsp;UPLOAD</p>
+                                    </a>
+                                </div>
+                                <input class="form-control" value="{% if user.documentupload.aadhar_self_no %}{{user.documentupload.aadhar_self_no}}{% endif %}" type="text" placeholder="Enter Your Pan Number" name="aadhar_self_no">
+                            </div>
+                            <div class="col-md-3 mb-2 pan_card_self">
+                                <div id="pan_card_self">
+                                    <label for="pan_card_self">PAN</label>{% if pan_sef_date.date_updated %}<span class="material-symbols-outlined" style="color: #5cbd28;" data-toggle="tooltip" data-placement="top" title="Already uploaded">check_circle</span></span>{% else %}<span class="material-symbols-outlined" style="color: #d52020;" data-toggle="tooltip" data-placement="top" title="Not uploaded Yet!">cancel</span></span>{% endif %}
+                                    <a href="#" id="file-link2" class="file btn" style="padding: 0rem!important; color: #286ca8; float: right" data-toggle="tooltip" data-placement="top" title="Click Here To Upload">
+                                        &nbsp;&nbsp;<i class="fa-solid fa-file-arrow-up fa-lg" title="Click Here To Upload"></i>
+                                        <p style="font-size: 12px; float: right;">&nbsp;UPLOAD</p>
+                                    </a>
+                                </div>
+                                <input class="form-control" value="{% if user.documentupload.pancard_self_no %}{{user.documentupload.pancard_self_no}}{% endif %}" type="text" placeholder="Enter Your Pan Number" name="pancard_self_no">
+                            </div>
+                            
+                            <h4>Contact Information</h4>
+                            <hr>
+                            <div class="col-md-3 mb-2">
+                                <label for="date">Primary Contact Number</label>
+                                <input class="form-control" id="primary_contact" name="primary_contact"  value="{% if user.investordetail.primary_contact %}{{user.investordetail.primary_contact}}{% endif %}"   type="number" maxlength="10" placeholder="" onchange="updateValue(this)">                               
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <label for="date">Secondary Contact Number</label>
+                                <input class="form-control" id="secondary_contact" name="secondary_contact"  value="{% if user.investordetail.secondary_contact %}{{user.investordetail.secondary_contact}}{% endif %}"  type="number" maxlength="10" placeholder="">
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <label for=" tel_no">Tel No</label>
+                                <input class="multisteps-form__input form-control" name="tel_no"  id="tel_no" type="number" placeholder="Tel No"
+                                value="{% if user.investordetail.tel_no %}{{user.investordetail.tel_no}}{% endif %}"  />
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <label>Email ID</label>
+                                <input class="form-control" id="email_id" name="email_id"  type="text"  value="{% if user.investordetail.email_id %}{{user.investordetail.email_id}}{% endif %}" placeholder="Enter Email ID">
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <label>Alternate Email ID</label>
+                                <input class="form-control" id="alternate_email_id" name="alternate_email_id"  type="text"  value="{% if user.investordetail.alternate_email_id %}{{user.investordetail.alternate_email_id}}{% endif %}" placeholder="Enter Alternate Email ID">
+                            </div>  
+                            
+                            <h4>Resedential Information</h4>
+                            <hr>
+                            <div class="col-md-3 mb-2">
+                                <label for="flat_no" >Flat No/ Wing  </label>
+                                <input class="multisteps-form__input form-control" name="flat_no" id="flat_no" type="text" placeholder="Enter Flat No/Wing"
+                                value="{% if user.investordetail.flat_no %}{{user.investordetail.flat_no}}{% endif %}"  />
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <label for="bldg_no" >Building/Gate No  </label>
+                                <input class="multisteps-form__input form-control" name="bldg_no" id="bldg_no" type="text" placeholder="Enter Building/Gate No"
+                                value="{% if user.investordetail.bldg_no %}{{user.investordetail.bldg_no}}{% endif %}"  />
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <label for="street_name" >Street Name  </label>
+                                <input class="multisteps-form__input form-control" name="street_name" id="street_name" type="text" placeholder="Enter Street Name"
+                                value="{% if user.investordetail.street_name %}{{user.investordetail.street_name}}{% endif %}"  />
+                            </div>
+                            
+                            <div class="col-md-3 mb-2">
+                                <label for="landmark" >Landmark </label>
+                                <input class="multisteps-form__input form-control" name="landmark" id="landmark" type="text" placeholder="Landmark"
+                                value="{% if user.investordetail.landmark %}{{user.investordetail.landmark}}{% endif %}"  />
+                            </div>   
+                            <div class="col-md-3 mb-2">
+                                <label for="city" >City/Town/Village </label>
+                                <input class="multisteps-form__input form-control" name="city" id="city" type="text" placeholder="City"
+                                value="{% if user.investordetail.city %}{{user.investordetail.city}}{% endif %}"  />
+                            </div>
+                            <div class="col-md-3 mb-2">        
+                                <label for="district" >District </label>
+                                <input class="multisteps-form__input form-control" name="district" id="district" type="text" placeholder="District"
+                                    value="{% if user.investordetail.district %}{{user.investordetail.district}}{% endif %}"  />
+                            </div>
+                            
+                            <div class="col-md-3 mb-2">       
+                                <label for=" pincode">Pin Code  </label>
+                                <input class="multisteps-form__input form-control" name="pincode" id="picode" type="number" placeholder="Pin Code"
+                                    value="{% if user.investordetail.pincode %}{{user.investordetail.pincode}}{% endif %}"  />
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <label for="state">State  </label>
+                                <input class="multisteps-form__input form-control" name="state" id="state" type="text" placeholder="State"
+                                value="{% if user.investordetail.state %}{{user.investordetail.state}}{% endif %}"  />
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <label for="country" >Country  </label>
+                                <input class="multisteps-form__input form-control" name="country" id="country" type="text" placeholder="Country"
+                                    value="{% if user.investordetail.country %}{{user.investordetail.country}}{% endif %}"  />
+                            </div>
+                            <h4>Occupational Information</h4>
+                            <hr>
+                            <div class="col-md-3 mb-2">
+                                <label>Occupation</label>
+                                <select class="form-select ignore" name="employeement" id="employeement">
+                                    <option selected>Select</option>
+                                    <option value="Business"{% if user.investordetail.employeement == 'Business' %}selected{% endif %}>Business</option>
+                                    <option value="Student"{% if user.investordetail.employeement == 'Student' %}selected{% endif %}>Student</option>
+                                    <option value="Unemployed"{% if user.investordetail.employeement == 'Unemployed' %}selected{% endif %}>Unemployed</option>
+                                    <option value="Private Sector Service"{% if user.investordetail.employeement == 'Private Sector Service' %}selected{% endif %}>Private Sector Service</option>
+                                    <option value="Public Sector"{% if user.investordetail.employeement == 'Public Sector' %}selected{% endif %}>Public Sector</option>
+                                    <option value="Retired"{% if user.investordetail.employeement == 'Retired' %}selected{% endif %}>Retired</option>
+                                    <option value="Govt Service"{% if user.investordetail.employeement == 'Govt Service' %}selected{% endif %}>Govt Service</option>
+                                    <option value="Professional"{% if user.investordetail.employeement == 'Professional' %}selected{% endif %}>Professional</option>
+                                    <option value="Agricultural"{% if user.investordetail.employeement == 'Agricultural' %}selected{% endif %}>Agricultural</option>
+                                    <option value="Housewife"{% if user.investordetail.employeement == 'Housewife' %}selected{% endif %}>Housewife</option>
+                                    <option value="Forex Dealer"{% if user.investordetail.employeement == 'Forex Dealer' %}selected{% endif %}>Forex Dealer</option>
+                                    <option value="Others"{% if user.investordetail.employeement == 'Others' %}selected{% endif %}>Others</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-2 others_specify ">
+                                <label for="others_specify">Others (specify)</label>
+                                <input class="form-control" id="others_specify" name="others_specify"  value="{% if user.investordetail.others_specify %}{{user.investordetail.others_specify}}{% endif %}"  type="text" placeholder="Specify">
+                            </div>
+                            <div class="col-md-3 mb-2 Unemployed">
+                                <label for="company_name">Company name</label>
+                                <input class="form-control" id="company_name" name="company_name"  value="{% if user.investordetail.company_name %}{{user.investordetail.company_name}}{% endif %}"  type="text" placeholder="">
+                            </div>
+                            <div class="col-md-3 mb-2 Unemployed">
+                                <label for="income">Annual Income In Rs/₹</label>
+                                <input class="form-control" id="income" name="income"  value="{% if user.investordetail.income %}{{user.investordetail.income}}{% endif %}" type="number" step="0.01" placeholder="">                               
+                            </div>              
+                            <div class="col-md-3 mb-2">
+                                <label for="mobile_no">Contact/Mobile No </label>
+                                <input class="multisteps-form__input form-control" name="mobile_no" id="mobile_no" type="number" placeholder="Mobile No"
+                                value="{% if user.investordetail.mobile_no %}{{user.investordetail.mobile_no}}{% endif %}"  />
+                            </div>
+                            <h4>Family Information</h4>
+                            <hr>
+                            <div class="col-md-2 mb-2"><label>Father's  Name </label>
+                                <input class="form-control" id="fname" name="father_first_name"  type="text" value="{% if user.investordetail.father_first_name %}{{user.investordetail.father_first_name}}{% endif %}" placeholder="Father Name">
+                            </div>
+                            <div class="col-md-2 mb-2"><label>Middle Name</label>
+                                <input class="form-control" id="category" name="father_middle_name" value="{% if user.investordetail.father_middle_name %}{{user.investordetail.father_middle_name}}{% endif %}"  type="text" placeholder="Middle Name">
+                            </div>
+                            <div class="col-md-2 mb-2"><label>Last Name</label>
+                                <input class="form-control" id="category" name="father_last_name" value="{% if user.investordetail.father_last_name %}{{user.investordetail.father_last_name}}{% endif %}" type="text" placeholder="Last Name">
+                            </div>
+                            <div class="col-md-3 mb-2 aadhar_card_father" >
+                                <div id="aadhar_card_father">
+                                    <label for="aadhar_card_father">Father's AADHAAR</label>{% if aadhar_father_date.date_updated %}<span class="material-symbols-outlined" style="color: #5cbd28;" data-toggle="tooltip" data-placement="top" title="Already uploaded">check_circle</span></span>{% else %}<span class="material-symbols-outlined" style="color: #d52020;" data-toggle="tooltip" data-placement="top" title="Not uploaded Yet!">cancel</span></span>{% endif %}
+                                    <a href="#" id="file-link3" class="file btn" style="padding: 0rem!important; color: #286ca8; float: right" data-toggle="tooltip" data-placement="top" title="Click Here To Upload">
+                                        &nbsp;&nbsp;<i class="fa-solid fa-file-arrow-up fa-lg" title="Click Here To Upload"></i>
+                                        <p style="font-size: 12px; float: right;">&nbsp;UPLOAD</p>
+                                    </a>
+                                </div>
+                                <input class="form-control" value="{% if user.documentupload.aadhar_father_no %}{{user.documentupload.aadhar_father_no}}{% endif %}" type="text" placeholder="Enter Your Aadhar Number" name="aadhar_father_no">
+                            </div>
+                            
+                            <div class="col-md-3 mb-2 pan_card_father" >
+                                <div id="pan_card_father">
+                                    <label for="pan_card_father">Father's PAN</label>{% if aadhar_father_date.date_updated %}<span class="material-symbols-outlined" style="color: #5cbd28;" data-toggle="tooltip" data-placement="top" title="Already uploaded">check_circle</span></span>{% else %}<span class="material-symbols-outlined" style="color: #d52020;" data-toggle="tooltip" data-placement="top" title="Not uploaded Yet!">cancel</span></span>{% endif %}
+                                    <a href="#" id="file-link4" class="file btn" style="padding: 0rem!important; color: #286ca8; float: right" data-toggle="tooltip" data-placement="top" title="Click Here To Upload">
+                                        &nbsp;&nbsp;<i class="fa-solid fa-file-arrow-up fa-lg" title="Click Here To Upload"></i>
+                                        <p style="font-size: 12px; float: right;">&nbsp;UPLOAD</p>
+                                    </a>
+                                </div>
+                                <input class="form-control" value="{% if user.documentupload.pancard_father_no %}{{user.documentupload.pancard_father_no}}{% endif %}" type="text" placeholder="Enter Your Pan Number" name="pancard_father_no">
+                            </div>
+                            <div class="col-md-2 mb-2"><label>Mother's  Name </label>
+                                <input class="form-control" id="fname" name="mother_first_name"  type="text" value="{% if user.investordetail.mother_first_name %}{{user.investordetail.mother_first_name}}{% endif %}" placeholder="Mother Name">
+                            </div>
+                            <div class="col-md-2 mb-2"><label>Middle Name</label>
+                                <input class="form-control" id="category" name="mother_middle_name" value="{% if user.investordetail.mother_middle_name %}{{user.investordetail.mother_middle_name}}{% endif %}" type="text" placeholder="Middle Name">
+                            </div>
+                            <div class="col-md-2 mb-2"><label>Last Name</label>
+                                <input class="form-control" id="category" name="mother_last_name" value="{% if user.investordetail.mother_last_name %}{{user.investordetail.mother_last_name}}{% endif %}"  type="text" placeholder="Last name">
+                            </div> 
+                            <div class="col-md-3 mb-2 aadhar_card_mother" >
+                                <div id="aadhar_card_mother">
+                                    <label for="aadhar_card_mother" > Mother's AADHAAR</label> 
+                                    {% if aadhar_mother_date.date_updated %}<span class="material-symbols-outlined" style="color: #5cbd28;" data-toggle="tooltip" data-placement="top" title="Already uploaded">check_circle</span>
+                                    </span>{% else %}
+                                    <span class="material-symbols-outlined" style="color: #d52020;" data-toggle="tooltip" data-placement="top" title="Not uploaded Yet!">cancel</span>
+                                    </span>{% endif %}
+                                    <a href="#" id="file-link5" class="file btn" style="padding: 0rem!important; color: #286ca8; float: right" data-toggle="tooltip" data-placement="top" title="Click Here To Upload">
+                                      &nbsp;&nbsp;<i class="fa-solid fa-file-arrow-up fa-lg" title="Click Here To Upload"></i>
+                                      <p style="font-size: 12px; float: right;">&nbsp;UPLOAD</p>
+                                    </a>
+                                </div>
+                                <input class="form-control" value="{% if user.documentupload.aadhar_mother_no %}{{user.documentupload.aadhar_mother_no}}{% endif %}" type="text" placeholder="Enter Your Aadhar Number" name="aadhar_mother_no">
+                            </div>
+                                
+                            <div class="col-md-3 mb-2 pan_card_mother" >
+                                <div id="pan_card_mother">
+                                    <label for="pancard_mother_no">Mothers's PAN</label>
+                                    {% if pan_mother_date.date_updated %}<span class="material-symbols-outlined" style="color: #5cbd28;" data-toggle="tooltip" data-placement="top" title="Already uploaded">check_circle</span>
+                                    </span>{% else %}
+                                    <span class="material-symbols-outlined" style="color: #d52020;" data-toggle="tooltip" data-placement="top" title="Not uploaded Yet!">cancel</span>
+                                    </span>{% endif %} 
+                                    <a href="#" id="file-link6" class="file btn" style="padding: 0rem!important; color: #286ca8; float: right" data-toggle="tooltip" data-placement="top" title="Click Here To Upload">
+                                      &nbsp;&nbsp;<i class="fa-solid fa-file-arrow-up fa-lg" title="Click Here To Upload"></i>
+                                      <p style="font-size: 12px; float: right;">&nbsp;UPLOAD</p>
+                                    </a>
+                                </div>
+                                <input class="form-control" value="{% if user.documentupload.pancard_mother_no %}{{user.documentupload.pancard_mother_no}}{% endif %}" type="text" placeholder="Enter Your Pan Number" name="pancard_mother_no">
+                            </div>
+                            <div class="col-md-2 mb-2 spouse_name" ><label>Spouse's Name </label>
+                                <input class="form-control" id="fname" name="spouse_first_name"  type="text" value="{% if user.investordetail.spouse_first_name %}{{user.investordetail.spouse_first_name}}{% endif %}" placeholder="First name">
+                            </div>
+                            <div  class="col-md-2 mb-2 spouse_name" ><label>Middle Name</label>
+                                <input class="form-control" id="category" name="spouse_middle_name" type="text" value="{% if user.investordetail.spouse_middle_name %}{{user.investordetail.spouse_middle_name}}{% endif %}"   placeholder="Middle Name">
+                            </div>
+                            <div  class="col-md-2 mb-2 spouse_name" ><label>Last Name</label>
+                                <input class="form-control" id="category" name="spouse_last_name" type="text" value="{% if user.investordetail.spouse_last_name %}{{user.investordetail.spouse_last_name}}{% endif %}"  placeholder="Last Name">
+                            </div>
+                            <div  class="col-md-3 mb-2 aadhar_card_spouse " id="aadhar_spouse">
+                                <div id="aadhar_card_spouse">
+                                    <label for="aadhar_card_spouse " >Spouse's AADHAAR</label>
+                                    {% if aadhar_spouse_date.date_updated %}<span class="material-symbols-outlined" style="color: #5cbd28;" data-toggle="tooltip" data-placement="top" title="Already uploaded">check_circle</span>
+                                    </span>{% else %}
+                                    <span class="material-symbols-outlined" style="color: #d52020;" data-toggle="tooltip" data-placement="top" title="Not uploaded Yet!">cancel</span>
+                                    </span>{% endif %} 
+                                    <a href="#" id="file-link7" class="file btn" style="padding: 0rem!important; color: #286ca8; float: right" data-toggle="tooltip" data-placement="top" title="Click Here To Upload">
+                                    &nbsp;&nbsp;<i class="fa-solid fa-file-arrow-up fa-lg" title="Click Here To Upload"></i>
+                                    <p style="font-size: 12px; float: right;">&nbsp;UPLOAD</p>
+                                    </a>
+                                </div>
+                                <input class="form-control" value="{% if user.documentupload.aadhar_spouse_no %}{{user.documentupload.aadhar_spouse_no}}{% endif %}" type="text" placeholder="Enter Your Aadhar Number" name="aadhar_spouse_no">
+                            </div>
+                        
+                            <div  class="col-md-3 mb-2 pan_card_spouse" id="pan_spouse1">
+                                <div id="pan_card_spouse">
+                                    <label for="pan_card_spouse" >Spouse's PAN</label> 
+                                    {% if pan_spouse_date.date_updated %}<span class="material-symbols-outlined" style="color: #5cbd28;" data-toggle="tooltip" data-placement="top" title="Already uploaded">check_circle</span>
+                                    </span>{% else %}
+                                    <span class="material-symbols-outlined" style="color: #d52020;" data-toggle="tooltip" data-placement="top" title="Not uploaded Yet!">cancel</span>
+                                    </span>{% endif %}
+                                    <a href="#" id="file-link8" class="file btn" style="padding: 0rem!important; color: #286ca8; float: right" data-toggle="tooltip" data-placement="top" title="Click Here To Upload">
+                                    &nbsp;&nbsp;<i class="fa-solid fa-file-arrow-up fa-lg" title="Click Here To Upload"></i>
+                                    <p style="font-size: 12px; float: right;">&nbsp;UPLOAD</p>
+                                    </a>    
+                                </div>
+                                <input class="form-control" value="{% if user.documentupload.pancard_spouse_no %}{{user.documentupload.pancard_spouse_no}}{% endif %}" type="text" placeholder="Enter Your Pan Number" name="pancard_spouse_no">
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>  
+    </div>
+</div>
+
+
+
+    {% comment %} 
+    condition:
+    if marital_status == married and nationality == NRI,INDIAN
+    then aadhar_card_spouse,pan_card_spouse,.spouse_name fields should be show
+    otherwise marital_status == unmarried,divorsed and nationality == NRI,INDIAN
+    then aadhar_card_spouse,pan_card_spouse,.spouse_name fields should be hide
+    if nationality == FOREIGNER then aadhar_card_spouse,pan_card_spouse
+    {% endcomment %}
+    
+    

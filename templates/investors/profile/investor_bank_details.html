@@ -1,0 +1,314 @@
+{% load static %}
+
+{% load index %}
+
+<input type="text" name="bank_form_len" id="bank_form_len" value="{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}" hidden > <!-- added on 13.04.23 (dynamic form length)-->
+
+<div class="accordion mt-3" id="bankdetailaccordionPanelsStayOpen">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+            <button class="accordion-button " style="background-color: white; border-color: #ffffff;" type="button"
+                data-bs-toggle="collapse" data-bs-target="#bank_detail-collapse" aria-expanded="true"
+                aria-controls="bank_detail-collapse">
+                <h3 style="font-family: monospace, Geneva, Tahoma, sans-serif;">Banking Details</h3>
+            </button>
+        </h2>
+        <div id="bank_detail-collapse" class="accordion-collapse collapse show"
+            aria-labelledby="panelsStayOpen-headingOne">
+            <div class="accordion-body">
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <!-- 1st Form (added on 13.04.23) -->
+                        <div class="accordion" id="accordionExample">                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button"
+                                        style="background-color: white; border-color: #ffffff;"
+                                        data-bs-toggle="collapse" data-bs-target="#bank_details_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}" aria-expanded="true"
+                                        aria-controls="bank_details_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}">
+                                        <h5>Add a new bank detail</h5>
+                                    </button>
+                                </h2>
+                                <div id="bank_details_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}" class="accordion-collapse collapse show clone"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                            <b>
+                                            Set as Primary &nbsp;
+                                            <input  class="form-check-input other-radio" type="radio" value=""  onchange="setPrimaryRadio(this)" name="bank_details_radio_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}">               
+                                            </b>
+                                        <input type="text" name="bank_id_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}" value="" hidden>
+                                        <hr>
+                                        <div class="row mt-2">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label for="account_type_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}">Account Type </label>
+                                                    <select  class="form-select ignore clearinput" id="account_type_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}" name="account_type_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}" >
+                                                        <option selected>Select</option>
+                                                        <option>SAVING</option>
+                                                        <option>CURRENT</option>
+                                                        <option>NRE</option>
+                                                        <option>NRO</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="account_no_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}">A/C Number</label>
+                                                    <input  class="form-control clearinput" onkeypress="if (this.value.length > 10) return false;" id="account_no_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}" name="account_no_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}" type="number" placeholder="Enter Your A/C Number">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="pincode_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}">Pincode</label>
+                                                    <input  class="form-control clearinput" onkeypress="if (this.value.length > 5) return false;"  name="pincode_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}" type="number" placeholder="Enter Your Bank Pincode">
+                                                </div>    
+                                                <div class="col-md-3">
+                                                    <label for="ifsc_number">IFSC</label>
+                                                    <input  class="form-control clearinput" onkeypress="if (this.value.length > 10) return false;" id="ifsc_number_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}" name="ifsc_number_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}" type="text" placeholder="Enter Your IFSC Code" onblur="fetchBankDetails(this.value)">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="bank_name_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}" name="bank_name_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}">Name of Bank </label>
+                                                    <input  class="form-control clearinput" id="bank_name_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}" name="bank_name_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}" type="text" placeholder="Enter Your Bank Name">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="branch_address_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}">Branch</label>
+                                                    <input  class="form-control clearinput" id="branch_address_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}"
+                                                        name="branch_address_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}" type="text" placeholder="Enter Your Branch">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="micr_number_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}">MICR</label>
+                                                    <input  class="form-control clearinput" onkeypress="if (this.value.length > 8) return false;" name="micr_number_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}" type="number" placeholder="Enter Your MICR">
+                                                </div>  
+                                                
+                                                <div class="col-md-3" >
+                                                    <label for="bank_cheque">Cheque Copy</label>
+                                                    <input class="form-control clearinput" type="file" id="bank_cheque" name="bank_cheque"  multiple>                                
+                                                    <p style="font-size:x-small;color:#d9103e;">{% if cheque_date.date_updated%}Last uploaded on: {{ cheque_date.date_updated }}{% else %}<p style="font-size:x-small;color:#039729;;"> No uploads yet {% endif %}</p>                                
+                                                </div>                                           
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3" id="Passbook">
+                                                    <label for="pb_entry_from_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}">Copy of Passbook From</label>
+                                                    <input class="form-control clearinput" type="date" name="pb_entry_from_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}">
+                                                </div>
+                                                <div class="col-md-3" id="Passbook">
+                                                    <label for="pb_entry_to_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}">Copy of Passbook To</label>
+                                                    <input class="form-control clearinput" type="date" name="pb_entry_to_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}">
+                                                </div>
+                                                <div class="col-md-3" >
+                                                    <label for="bank_passbook">Bank Passbook </label>
+                                                    <input class="form-control clearinput" type="file" id="bank_passbook" name="bank_passbook"  multiple>                                
+                                                    <p style="font-size:x-small;color:#d9103e;">{% if passbook_date.date_updated%}Last uploaded on: {{ passbook_date.date_updated }}{% else %}<p style="font-size:x-small;color:#039729;;"> No uploads yet {% endif %}</p>                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3" id="statement">
+                                                    <label for="st_entry_from_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}">Copy of Statement From</label>
+                                                    <input class="form-control clearinput" type="date" name="st_entry_from_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}">
+                                                </div>
+                                                <div class="col-md-3" id="statement">
+                                                    <label for="st_entry_to_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}">Copy of Statement To</label>
+                                                    <input class="form-control clearinput" type="date" name="st_entry_to_{% if user.investordetail.bank_details.exists %}{{user.investordetail.bank_details.all|length|add:'1'}}{% else %}1{% endif %}">
+                                                </div>
+                                                <div class="col-md-3" >
+                                                    <label for="bank_statement">Bank Statement </label>
+                                                    <input class="form-control clearinput" type="file" id="bank_statement" name="bank_statement"  multiple>                                
+                                                    <p style="font-size:x-small;color:#d9103e;">{% if statement_date.date_updated%}Last uploaded on: {{ statement_date.date_updated }}{% else %}<p style="font-size:x-small;color:#039729;;"> No uploads yet {% endif %}</p>                               
+                                                </div> 
+                                                                                              
+                                            </div>
+                                            <div class="col-md-3">                                            
+                                                <button type="button" id="add_bank_detail_form" class="btn btn-warning mt-5">Add</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                                                                                  
+                        </div>
+                        <!-- already saved form (Can be edited) (added on 13.04.23)  -->
+                        {% if user.investordetail.bank_details.exists %}
+                        <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                {% for i in user.investordetail.bank_details.all %}
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button"
+                                        style="background-color: white; border-color: #ffffff;"
+                                        data-bs-toggle="collapse" data-bs-target="#bank_details_{{forloop.counter}}" aria-expanded="true"
+                                        aria-controls="bank_details_{{forloop.counter}}">
+                                        <h5>{{i.bank_name}} - {{i.ifsc_number}}</h5>
+                                    </button>
+                                </h2>
+                                <div id="bank_details_{{forloop.counter}}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <div class="row">
+                                            <div class="col align-self-center"> 
+                                                <b>
+                                                Set as Primary &nbsp;
+                                                <input class="form-check-input other-radio " type="radio" value="{{i.set_as_primary}}" {% if i.set_as_primary == True %} checked {% endif %} onchange="setPrimaryRadio(this)" name="bank_details_radio_{{forloop.counter}} required">
+                                                </b>
+                                                <input type="text" name="bank_id_{{ forloop.counter }}" value="{{ i.id }}" hidden>
+                                            </div>
+                                            <!-- Delete Button -->
+                                            <div class="col">
+                                                <form method="POST" action="{% url 'delete_bank' %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="bank_id" value="{{ i.id }}">
+                                                    <button class="btn btn-danger" type="submit" style="float:right;" onclick="return confirm('Are you sure you want to delete this Bank Details?')"><span class="material-symbols-outlined">delete</span></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row mt-2">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label for="account_type_{{forloop.counter}}">Account Type </label>
+                                                    <select class="form-select ignore " id="account_type_{{forloop.counter}}" name="account_type_{{forloop.counter}}" >                                                        
+                                                        <option selected>Select</option>
+                                                        <option value="SAVING" {% if i.account_type == 'SAVING' %}selected{% endif %}>SAVING</option>
+                                                        <option value="CURRENT" {% if i.account_type == 'CURRENT' %}selected{% endif %}>CURRENT</option>
+                                                        <option value="NRE" {% if i.account_type == 'NRE' %}selected{% endif %}>NRE</option>
+                                                        <option value="NRO" {% if i.account_type == 'NRO' %}selected{% endif %}>NRO</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="account_no_{{forloop.counter}}">A/C Number</label>
+                                                    <input class="form-control " id="account_no_{{forloop.counter}}" name="account_no_{{forloop.counter}}"
+                                                        value="{{i.account_no}}"
+                                                        type="number" placeholder="Enter Your A/C Number">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="pincode_{{forloop.counter}}">Pincode</label>
+                                                    <input class="form-control" id="pincode" name="pincode_{{forloop.counter}}"
+                                                        value="{{i.pincode}}" maxlength="8" pattern="\d{8}"
+                                                        type="number" placeholder="Enter Your Bank Pincode">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="ifsc_number">IFSC</label>
+                                                    <input class="form-control " id="ifsc_number_{{forloop.counter}}" name="ifsc_number_{{forloop.counter}}"
+                                                        value="{{i.ifsc_number}}"
+                                                        type="text" placeholder="Enter Your IFSC Code">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="bank_name_1">Name of Bank </label>
+                                                    <input class="form-control " id="bank_name_{{forloop.counter}}" name="bank_name_{{forloop.counter}}"
+                                                        value="{{i.bank_name}}"
+                                                        type="text" placeholder="Enter Your Bank Name">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="branch_address_{{forloop.counter}}">Branch</label>
+                                                    <input class="form-control " id="branch_address_{{forloop.counter}}"
+                                                        name="branch_address_{{forloop.counter}}"
+                                                        value="{{i.branch_address}}"
+                                                        type="text" placeholder="Enter Your Branch">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="micr_number_{{forloop.counter}}">MCR</label>
+                                                    <input class="form-control" id="micr_number_2" name="micr_number_{{forloop.counter}}"
+                                                        value="{{i.micr_number}}"
+                                                        type="number" placeholder="Enter Your MCR">
+                                                </div>                                                
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3" id="Passbook">
+                                                    <label for="pb_entry_from_{{forloop.counter}}">Copy of Passbook From</label>
+                                                    <input class="form-control" type="date" name="pb_entry_from_{{forloop.counter}}"
+                                                        value="{{i.pb_entry_from|date:"Y-m-d"}}">
+                                                </div>
+                                                <div class="col-md-3" id="Passbook">
+                                                    <label for="pb_entry_to_{{forloop.counter}}">Copy of Passbook To</label>
+                                                    <input class="form-control" type="date" name="pb_entry_to_{{forloop.counter}}"
+                                                        value="{{i.pb_entry_to|date:"Y-m-d"}}">
+                                                </div>
+                                                <div class="col-md-3" id="statement">
+                                                    <label for="st_entry_from_{{forloop.counter}}">Copy of Statement From</label>
+                                                    <input class="form-control" type="date" name="st_entry_from_{{forloop.counter}}"
+                                                        value="{{i.st_entry_from|date:"Y-m-d"}}">
+                                                </div>
+                                                <div class="col-md-3" id="statement">
+                                                    <label for="st_entry_to_{{forloop.counter}}">Copy of Statement To</label>
+                                                    <input class="form-control" type="date" name="st_entry_to_{{forloop.counter}}"
+                                                        value="{{i.st_entry_to|date:"Y-m-d"}}">
+                                                </div>
+                                                <div class="col-md-3" >
+                                                    <label for="bank_passbook">Bank Passbook </label>
+                                                    <input class="form-control" type="file" id="bank_passbook" name="bank_passbook"  multiple>                                
+                                                    <p style="font-size:x-small;color:#d9103e;">{% if passbook_date.date_updated%}Last uploaded on: {{ passbook_date.date_updated }}{% else %}<p style="font-size:x-small;color:#039729;;"> Not Uploaded {% endif %}</p>                            
+                                                </div>   
+                                                <div class="col-md-3" >
+                                                    <label for="bank_statement">Bank Statement </label>
+                                                    <input class="form-control" type="file" id="bank_statement" name="bank_statement"  multiple>                                
+                                                    <p style="font-size:x-small;color:#d9103e;">{% if statement_date.date_updated%}Last uploaded on: {{ statement_date.date_updated }}{% else %}<p style="font-size:x-small;color:#039729;;"> Not Uploaded {% endif %}</p>                               
+                                                </div> 
+                                                <div class="col-md-3" >
+                                                    <label for="bank_cheque">Bank Cheque </label>
+                                                    <input class="form-control" type="file" id="bank_cheque" name="bank_cheque"  multiple>                                
+                                                    <p style="font-size:x-small;color:#d9103e;">{% if cheque_date.date_updated%}Last uploaded on: {{ cheque_date.date_updated }}{% else %}<p style="font-size:x-small;color:#039729;;"> Not Uploaded {% endif %}</p>                                
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}                                                        
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function setPrimaryRadio(input) {
+    if (input.checked) {
+        input.value = 'True';
+        var inputs = document.getElementsByClassName('other-radio');
+        for (var i =0; i < inputs.length; i++) {
+            if (inputs[i] !== input) {
+                inputs[i].checked = false;
+                inputs[i].value = 'False';
+            }
+        }
+    } else {
+        input.value = 'False';
+    }
+}
+
+</script>
+<script>
+function fetchBankDetails(ifscCode) {
+  const inputField = event.target; // The IFSC input field that triggered the event
+
+  // Find the parent container element
+  const container = inputField.closest('.row');
+
+  // Find the related input fields within the container
+  const bankNameInput = container.querySelector('input[name^="bank_name"]');
+  const branchAddressInput = container.querySelector('input[name^="branch_address"]');
+  const micr = container.querySelector('input[name^="micr_number"]');
+  // Construct the API URL with the provided IFSC code
+  const apiUrl = `https://ifsc.razorpay.com/${ifscCode}`;
+
+  // Send an AJAX request to the API
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', apiUrl, true);
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      const bankData = JSON.parse(xhr.responseText);
+      bankNameInput.value = bankData.BANK;
+      branchAddressInput.value = bankData.ADDRESS;
+      micr.value = bankData.MICR;
+      // Update more fields if needed
+
+    } else {
+      alert('Error fetching bank details:', xhr.statusText);
+    }
+  };
+  xhr.onerror = function () {
+    console.error('Request failed');
+  };
+  xhr.send();
+}
+
+</script>
+
+    

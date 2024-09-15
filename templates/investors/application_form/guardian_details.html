@@ -1,0 +1,138 @@
+{% load index %}
+<form {% if requestDetails.is_active == False %} inert {% endif %}  id="gaurdian_form">
+    <div class="multisteps-form__panel shadow p-4 rounded bg-white " data-animation="scaleIn">
+        <div style="display: flex;flex-wrap: wrap;flex-direction: row;justify-content: space-between;">
+            <h3 class="multisteps-form__title">Guardian Details (If Sole / First Holder is a minor) </h3>
+            <button type="button" onclick="autofill(event,'gaurdianDetailsAPI', 'gaurdian_form')" id="load_gaurdian_details" data-toggle="tooltip" data-placement="top"
+                title="Load Data From Prev. Saved From ?"><i class="fa fa-refresh" aria-hidden="true"></i> </button>
+        </div>
+
+        <div class="multisteps-form__content">
+
+            {% if 'gaurdian_name' in investorGaurdianDetailsFields %}
+            <div class="form-row mt-4">
+                <label class="col-12 col-sm-3">Guardian Name : </label>
+                <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control" type="text" placeholder="First Name"
+                        name='gaurdian_name' id="gaurdian_name"
+                        value="{% if investorGaurdianDetails.gaurdian_name %}{{investorGaurdianDetails.gaurdian_name|splitString:0}} {% else %}{{user.g_fname}} {% endif %}" />
+                </div>
+                <div class="col-12 col-sm-3 ">
+                    <input class="multisteps-form__input form-control" type="text" placeholder="Middle Name"
+                        name='gaurdian_name' id="gaurdian_name"
+                        value="{% if investorGaurdianDetails.gaurdian_name %}{{investorGaurdianDetails.gaurdian_name|splitString:1}} {% else %}{{user.g_mname}} {% endif %}" />
+                </div>
+                <div class="col-12 col-sm-3 ">
+                    <input class="multisteps-form__input form-control" type="text" placeholder="Last Name"
+                        name='gaurdian_name' id="gaurdian_name"
+                        value="{% if investorGaurdianDetails.gaurdian_name %}{{investorGaurdianDetails.gaurdian_name|splitString:3}} {% else %}{{user.g_lname}} {% endif %}" />
+                </div>
+            </div>
+            {% endif %}
+
+
+            <div class="form-row mt-4">
+                {% if 'relationship' in investorGaurdianDetailsFields %}
+                <label class="col-12 col-sm-3" for="grelationship">Relationship : </label>
+                <div class="col-12 col-sm-3">
+                    <select class="form-select ignore" id="relationship" name="relationship" required>
+                        <option selected>Select</option>
+                        <option value="MOTHER" {% if i.relationship == 'MOTHER' %}selected{% endif %}>MOTHER</option>
+                        <option value="FATHER" {% if i.relationship == 'FATHER' %}selected{% endif %}>FATHER</option>
+                        <option value="SISTER" {% if i.relationship == 'SISTER' %}selected{% endif %}>SISTER</option>
+                        <option value="BROTHER" {% if i.relationship == 'BROTHER' %}selected{% endif %}>BROTHER</option>
+                        <option value="SON" {% if i.relationship == 'SON' %}selected{% endif %}>SON</option>
+                        <option value="DAUGHTER" {% if i.relationship == 'DAUGHTER' %}selected{% endif %}>DAUGHTER</option>
+                        <option value="OTHER" {% if i.relationship == 'OTHER' %}selected{% endif %}>OTHER</option>
+                    </select>
+                </div>
+                {% endif %}
+
+                {% if 'pancard' in investorGaurdianDetailsFields %}
+                <label class="col-12 col-sm-3" for="'gpan">PAN / GIR No. : </label>
+                <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control" type="text" placeholder="Enter PAN / GIR No."
+                        name='pancard' id="pancard"
+                        value="{% if investorGaurdianDetails.pancard %}{{investorGaurdianDetails.pancard}}{% endif %}" />
+                </div>
+                {% endif %}
+            </div>
+
+            {% if 'address' in investorGaurdianDetailsFields %}
+            <div class="form-row mt-4">
+                <label class="col-12 col-sm-3" for="address">Address : </label>
+                <div class="col-12 col-sm-9">
+                    <input class="multisteps-form__input form-control" type="textarea" placeholder="Address"
+                        name='address' id="address"
+                        value="{% if investorGaurdianDetails.address %}{{investorGaurdianDetails.address}}{% endif %}" />
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="form-row mt-4">
+                {% if 'city' in investorGaurdianDetailsFields %}
+                <label class="col-12 col-sm-2" for="city">City : </label>
+                <div class="col-12 col-sm-2">
+                    <input class="multisteps-form__input form-control" type="text" placeholder="City" name='city'
+                        id="city"
+                        value="{% if investorGaurdianDetails.city %}{{investorGaurdianDetails.city}}{% endif %}" />
+                </div>
+                {% endif %}
+
+                {% if 'country' in investorGaurdianDetailsFields %}
+                <label class="col-12 col-sm-1" for="country">Country : </label>
+                <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control" type="text" placeholder="Country" name='country'
+                        id="country"
+                        value="{% if investorGaurdianDetails.country %}{{investorGaurdianDetails.country}}{% endif %}" />
+                </div>
+                {% endif %}
+
+                {% if 'state' in investorGaurdianDetailsFields %}
+                <label class="col-12 col-sm-1" for="state">State : </label>
+                <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control" type="text" placeholder="State" name='state'
+                        id="state"
+                        value="{% if investorGaurdianDetails.state %}{{investorGaurdianDetails.state}}{% endif %}" />
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-row mt-4">
+                {% if 'mobile_no' in investorGaurdianDetailsFields %}
+                <label class="col-12 col-sm-3" for="mobile_no">Telephone Number : </label>
+                <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control" type="number" placeholder="Enter Telephone No."
+                        name='mobile_no' id="mobile_no"
+                        value="{% if investorGaurdianDetails.mobile_no %}{{investorGaurdianDetails.mobile_no}}{% endif %}" />
+                </div>
+                {% endif %}
+
+                {% if 'fax_no' in investorGaurdianDetailsFields %}
+                <label class="col-12 col-sm-3" for="fax_no">Fax Number : </label>
+                <div class="col-12 col-sm-3">
+                    <input class="multisteps-form__input form-control" type="text" placeholder="Enter Fax No."
+                        name='fax_no' id="fax_no"
+                        value="{% if investorGaurdianDetails.fax_no %}{{investorGaurdianDetails.fax_no}}{% endif %}" />
+                </div>
+                {% endif %}
+            </div>
+
+            {% if 'email_id' in investorGaurdianDetailsFields %}
+            <div class="form-row mt-4">
+                <label class="col-12 col-sm-3" for="email_id">Email Address : </label>
+                <div class="col-12 col-sm-9">
+                    <input class="multisteps-form__input form-control" type="textarea" placeholder="Enter Email Address"
+                        name='email_id' id="email_id"
+                        value="{% if investorGaurdianDetails.email_id %}{{investorGaurdianDetails.email_id}}{% endif %}" />
+                </div>
+            </div>
+            {% endif %}
+            <div class="button-row d-flex mt-4">
+                <button class="btn btn-primary js-btn-prev" type="button" title="Prev">Prev</button>
+                <button class="btn btn-primary ml-auto js-btn-next" onclick="formSubmit(event, 'gaurdian_form', 'investorGaurdianDetailsSave')" type="button" id="gaurdian_form_next"
+                    title="Next">Next</button>
+            </div>
+        </div>
+    </div>
+</form>
